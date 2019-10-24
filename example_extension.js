@@ -143,7 +143,7 @@ function populateDataTable(data, columns) {
         data_table = $('#data_table').DataTable({
             data: data,
             columns: columns,
-            autoWidth: false,
+            autoWidth: true,
             deferRender: true,
             scroller: true,
             scrollY: height,
