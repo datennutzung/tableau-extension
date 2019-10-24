@@ -1,0 +1,63 @@
+.text-center{
+    text-align: center;
+}
+
+div.DTS div.dataTables_scrollBody {
+    background: white;
+}
+
+#btn_fault_group {
+    width: 100%;
+    height: 30px;
+    margin-bottom: 5px;
+    align-content: space-between;
+}
+
+.btn-fault {
+    float: right;
+    margin-left: 5px;
+    width: 100px;
+}
+
+.btn-submit {
+  float: right;
+}
+
+.sheet_name {
+    font-weight: bold;
+}
+
+ul.closeable {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 5px;
+  }
+  
+  ul.closeable li {
+    border: 1px solid #ddd;
+    margin-top: -1px; /* Prevent double borders */
+    background-color: #f6f6f6;
+    padding: 8px;
+    font-size: 12px;
+    text-decoration: none;
+    color: black;
+    display: block;
+    position: relative;
+  }
+  
+  ul.closeable li:hover {
+    background-color: #eee;
+  }
+  
+  .btn-close {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    right: 0%;
+    font-size: 18px;
+    padding: 4px 11px;
+    transform: translate(0%, -50%);
+  }
+  
+  .btn-close:hover {background: #bbb;}

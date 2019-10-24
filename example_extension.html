@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Example Extensions</title>
+
+        <!-- jQuery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+
+        <!-- Datatable Builder: https://datatables.net/download/ -->
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4-4.1.1/jq-3.3.1/dt-1.10.18/b-1.5.6/b-colvis-1.5.6/cr-1.5.0/fh-3.1.4/r-2.2.2/sc-2.0.0/datatables.min.css" />
+        <script type="text/javascript" src="https://cdn.datatables.net/v/bs4-4.1.1/jq-3.3.1/dt-1.10.18/b-1.5.6/b-colvis-1.5.6/cr-1.5.0/fh-3.1.4/r-2.2.2/sc-2.0.0/datatables.min.js"></script>
+
+        <!-- An icon library, learn more here: https://material.io/resources/icons/?style=baseline -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+        <!-- Tableau Extensions API Library  -->
+        <!-- library is in the /lib directory -->
+        <script src="/lib/tableau.extensions.1.latest.js"></script>
+
+        <!-- Include our own style sheets and javascript code -->
+        <link rel="stylesheet" href="example_extension.css">
+        <script src="example_extension.js"></script>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <!-- Main UI -->
+            <div id="selected_marks">
+                <h4 class="text-center">
+                    Marks for <span class="sheet_name" id="selected_marks_title">Sheet Name</span>
+                    <button title="Choose Sheet" type="button" class="btn btn-link" id="show_choose_sheet_button">
+                        <i class="material-icons">dashboard</i>
+                    </button>
+                    <button title="Reset Filters" type="button" class="btn btn-link" id="reset_filters_button">
+                        <i class="material-icons">low_priority</i>
+                    </button>
+                </h4>
+                <div id="data_table_wrapper"></div>
+                <div id="no_data_message">
+                    <h5 class="text-center">No marks selected</h5>
+                </div>
+                <div id="btn_fault_group" style="display:none">
+                    <button id="data_fault_button" type="button" class="btn btn-danger btn-lg btn-fault">Mark Fault</button>
+                    <button id="data_correct_button" type="button" class="btn btn-success btn-lg btn-fault">Mark Correct</button>
+                </div>
+            </div>
+            <div id="ranges" style="display:none">
+                <ul class="closeable" id="ranges_list"></ul>
+                <button id="ranges_submit_button" type="submit" class="btn btn-primary btn-lg btn-submit">Submit</button>
+            </div>
+        </div>
+        
+        <!-- Choose Sheet Dialog (See https://www.w3schools.com/bootstrap/bootstrap_modal.asp for bootstrap dialog info) -->
+        <div id="choose_sheet_dialog" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Choose a Sheet from <span class="sheet_name" id="choose_sheet_title"></span></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="choose_sheet_buttons"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+ </html>
