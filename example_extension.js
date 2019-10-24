@@ -60,11 +60,10 @@ function showChooseSheetDialog() {
 
     // Show the dialog
     $('#choose_sheet_dialog').modal('toggle');
+}
 
-    function createButton(buttonTitle) {
-        const button = $(`<button type='button' class='btn btn-default btn-block'>${buttonTitle}</button>`);
-        return button;
-    }
+function createButton(buttonTitle) {
+    return $(`<button type='button' class='btn btn-default btn-block'>${buttonTitle}</button>`);
 }
 
 // This variable will save off the function we can call to unregister listening to marks-selected events
