@@ -122,7 +122,7 @@ function populateDataTable(data, columns) {
 
         // Do some math to compute the height we want the data table to be
         var top = $('#data_table_wrapper')[0].getBoundingClientRect().top;
-        var height = $(document).height() - top - 130;
+        var height = $(document).height() - top - 150;
 
         const headerCallback = function(thead, data) {
             const headers = $(thead).find('th');
