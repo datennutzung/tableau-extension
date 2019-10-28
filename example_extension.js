@@ -200,15 +200,40 @@ function markSelectedData(fault, dateColumn = 1) {
     var last = new Date("1970-01-01T00:00:00");
     var first = new Date("2999-12-31T23:59:59");
     for (var i = 0; i<=dates.length; i++) {
-        let date = new Date(dates[i]);
-        console.log(date +", "+ first +", "+ last)
+        let date = formatDateTime(dates[i]);
         last = date>last?date:last;
         first = date<first?date:first;
     }
     var range = {start: first, end: last, is_fault: fault};
     var length = fdd_events.ranges.push(range);
-    // clear selection
     add_range_entry(length-1);
+}
+
+function formatDateTime(datetime, date_sep=".", date_time_sep=" ", dateFormat="dmy") {
+    let date_time = datetime.split(date_time_sep);
+    let date_str = date_time[0];
+    let time_str = date_time[1];
+    let date_arr = date_str.split(date_sep);
+    switch (dateFormat) { 
+        case "dmy":
+                var day = date_arr[0];
+                var month = date_arr[1];
+                var year = date_arr[2];
+            break;
+        case "ymd":
+                var year = date_arr[0];
+                var month = date_arr[1];
+                var day = date_arr[2];
+            break;
+        case "mdy":
+        default:
+            var month = date_arr[0];
+            var day = date_arr[1];
+            var year = date_arr[2];
+        break;
+    }
+    let new_date_str = year+"-"+month+"-"+day+"T"+time_str;
+    return new Date(new_date_str);
 }
 
 function submitRanges() {
