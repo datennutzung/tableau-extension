@@ -2,7 +2,7 @@
 
 // Use the jQuery document ready signal to know when everything has been initialized
 $(document).ready(function() {
-    console.log("Using v0.2.0")
+    console.log("Using v0.2.0 ")
     // Tell Tableau we'd like to initialize our extension
     initializeButtons(); // muss noch weg
     tableau.extensions.initializeAsync().then(function() {
@@ -209,7 +209,7 @@ function markSelectedData(fault, dateColumn = 1) {
     add_range_entry(length-1);
 }
 
-function formatDateTime(datetime, date_sep=".", date_time_sep=" ", dateFormat="dmy") {
+function formatDateTime(datetime="", date_sep=".", date_time_sep=" ", dateFormat="dmy") {
     let date_time = datetime.split(date_time_sep);
     let date_str = date_time[0];
     let time_str = date_time[1];
