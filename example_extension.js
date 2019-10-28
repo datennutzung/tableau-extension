@@ -2,12 +2,11 @@
 
 // Use the jQuery document ready signal to know when everything has been initialized
 $(document).ready(function() {
-    console.log("Using v0.2.1 ")
+    console.log("Using v0.2.2 ")
     // Tell Tableau we'd like to initialize our extension
-    initializeButtons(); // muss noch weg
+    initializeButtons(); // muss unter das initialize extension
     tableau.extensions.initializeAsync().then(function() {
         initializeExtension();
-        initializeButtons();
     });
 });
 
@@ -163,8 +162,8 @@ function populateDataTable(data, columns) {
 function initializeButtons() {
     $('#show_choose_sheet_button').click(showChooseSheetDialog);
     $('#reset_filters_button').click(resetFilters);
-    $('#data_fault_button').click(function() {markSelectedData(true)});
-    $('#data_correct_button').click(function() {markSelectedData(false)});
+    $('#data_fault_button').click(function() {markSelectedData(false)});
+    $('#data_correct_button').click(function() {markSelectedData(true)});
     $('#ranges_submit_button').click(submitRanges)
 }
 
@@ -243,7 +242,8 @@ function submitRanges() {
             fdd_events.ranges.push(fdd_event_ranges[range_index]);
         }
     }
-    console.log(JSON.stringify(fdd_events));
+    var to_send = JSON.stringify(fdd_events);
+    console.log(to_send);
     // send fdd_events somewhere
 }
 
