@@ -169,15 +169,15 @@ function initializeButtons() {
 }
 
 var fdd_events = {data_step: 1337, data_start: "1970-01-01T00:00:00", data_end: "2999-12-31T23:59:59", ranges: []};
-
+var fdd_event_ranges = [];
 function add_range_entry(array_pos) {
-    let start_date = fdd_events.ranges[array_pos].start.toLocaleDateString();
-    let start_time = fdd_events.ranges[array_pos].start.toLocaleTimeString();
+    let start_date = fdd_event_ranges[array_pos].start.toLocaleDateString();
+    let start_time = fdd_event_ranges[array_pos].start.toLocaleTimeString();
     let start = start_date + " " + start_time;
-    let end_date = fdd_events.ranges[array_pos].end.toLocaleDateString();
-    let end_time = fdd_events.ranges[array_pos].end.toLocaleTimeString();
+    let end_date = fdd_event_ranges[array_pos].end.toLocaleDateString();
+    let end_time = fdd_event_ranges[array_pos].end.toLocaleTimeString();
     let end = end_date + " " + end_time;
-    let fault = fdd_events.ranges[array_pos].is_fault;
+    let fault = fdd_event_ranges[array_pos].is_fault;
     
     let li = "<li>"+array_pos+". "+start+" - "+end+" | Fault: "+fault+"<span class='btn-close' onclick='remove_range_entry(this)'>&times;</span></li>";
     $("#ranges_list").append(li);
@@ -186,7 +186,7 @@ function add_range_entry(array_pos) {
 
 function remove_range_entry(object) {
     var array_pos = parseInt(object.parentElement.innerText.split(".")[0], 10);
-    delete fdd_events.ranges[array_pos];
+    delete fdd_event_ranges[array_pos];
     object.parentElement.remove();
 
     if ($("#ranges_list").children().length === 0) {
@@ -205,7 +205,7 @@ function markSelectedData(fault, dateColumn = 1) {
         first = date<first?date:first;
     }
     var range = {start: first, end: last, is_fault: fault};
-    var length = fdd_events.ranges.push(range);
+    var length = fdd_event_ranges.push(range);
     add_range_entry(length-1);
 }
 
@@ -238,6 +238,11 @@ function formatDateTime(datetime="", date_sep=".", date_time_sep=" ", dateFormat
 
 function submitRanges() {
     alert("Not done yet!");
+    for (var range_index = 0; range_index <= fdd_event_ranges.length; range_index++) {
+        if (fdd_event_ranges[range_index] != null) {
+            fdd_events.ranges.push(fdd_event_ranges[range_index]);
+        }
+    }
     console.log(JSON.stringify(fdd_events));
     // send fdd_events somewhere
 }
