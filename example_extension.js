@@ -2,7 +2,7 @@
 
 // Use the jQuery document ready signal to know when everything has been initialized
 $(document).ready(function() {
-    console.log("Using v0.1.5")
+    console.log("Using v0.1.6")
     // Tell Tableau we'd like to initialize our extension
     initializeButtons(); // muss noch weg
     tableau.extensions.initializeAsync().then(function() {
@@ -165,13 +165,14 @@ function initializeButtons() {
     $('#reset_filters_button').click(resetFilters);
     $('#data_fault_button').click(function() {markSelectedData(true)});
     $('#data_correct_button').click(function() {markSelectedData(false)});
+    $('#ranges_submit_button').click(submitRanges)
 }
 
 var fdd_events = {data_step: 1337, data_start: "1970-01-01T00:00:00", data_end: "2999-12-31T23:59:59", ranges: []};
 
 function add_range_entry(array_pos) {
-    var start = fdd_events.ranges[array_pos].start;
-    var end = fdd_events.ranges[array_pos].end;
+    var start = fdd_events.ranges[array_pos].start.toISOString();
+    var end = fdd_events.ranges[array_pos].end.toISOString();
     var fault = fdd_events.ranges[array_pos].is_fault;
     
     var li = "<li>"+array_pos+". "+start+" - "+end+" | Fault: "+fault+"<span class='btn-close' onclick='remove_range_entry(this)'>&times;</span></li>";
@@ -203,6 +204,10 @@ function markSelectedData(fault, dateColumn = 0) {
     var length = fdd_events.ranges.push(range);
     // clear selection
     add_range_entry(length-1);
+}
+
+function submitRanges() {
+    // send fdd_events somewhere
 }
 
 function testData() {
