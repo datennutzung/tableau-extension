@@ -2,7 +2,7 @@
 
 // Use the jQuery document ready signal to know when everything has been initialized
 $(document).ready(function() {
-    console.log("Using v0.12")
+    console.log("Using v0.1.2")
     // Tell Tableau we'd like to initialize our extension
     initializeButtons(); // muss noch weg
     tableau.extensions.initializeAsync().then(function() {
@@ -116,7 +116,7 @@ var data_table;
 function populateDataTable(data, columns) {
     // Do some UI setup here: change the visible section and reinitialize the table
     $('#data_table_wrapper').empty();
-    alert(columns[0].title);
+    alert(JSON.stringify(columns[0]));
 
     if (data.length > 0) {
         $('#no_data_message').css('display', 'none');
