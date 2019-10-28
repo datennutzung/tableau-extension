@@ -194,12 +194,12 @@ function remove_range_entry(object) {
     }
 }
 
-function markSelectedData(fault, dateColumn = 1) {
+function markSelectedData(fault, dateColumn = 0) {
     // get the list of marks as selected_marks
     var dates = data_table.column(dateColumn).data().toArray();
     var last = new Date("1970-01-01T00:00:00");
     var first = new Date("2999-12-31T23:59:59");
-    for (var i = 0; i<=dates.length; i++) {
+    for (var i = 0; i<dates.length; i++) {
         let date = formatDateTime(dates[i]);
         last = date>last?date:last;
         first = date<first?date:first;
