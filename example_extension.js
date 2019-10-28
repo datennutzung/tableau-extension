@@ -2,7 +2,7 @@
 
 // Use the jQuery document ready signal to know when everything has been initialized
 $(document).ready(function() {
-    console.log("Using v0.1.7")
+    console.log("Using v0.1.8")
     // Tell Tableau we'd like to initialize our extension
     initializeButtons(); // muss noch weg
     tableau.extensions.initializeAsync().then(function() {
@@ -197,6 +197,7 @@ function markSelectedData(fault, dateColumn = 0) {
     var first = new Date("2999-12-31T23:59:59");
     for (var i_date in dates) {
         let date = new Date(i_date);
+        console.log(date +", "+ first +", "+ last)
         last = date>last?date:last;
         first = date<first?date:first;
     }
@@ -207,6 +208,8 @@ function markSelectedData(fault, dateColumn = 0) {
 }
 
 function submitRanges() {
+    alert("Not done yet!");
+    console.log(JSON.parse(fdd_events));
     // send fdd_events somewhere
 }
 
