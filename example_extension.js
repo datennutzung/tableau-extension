@@ -2,7 +2,7 @@
 
 // Use the jQuery document ready signal to know when everything has been initialized
 $(document).ready(function() {
-    console.log("Using v0.1.6")
+    console.log("Using v0.1.7")
     // Tell Tableau we'd like to initialize our extension
     initializeButtons(); // muss noch weg
     tableau.extensions.initializeAsync().then(function() {
@@ -123,7 +123,7 @@ function populateDataTable(data, columns) {
 
         // Do some math to compute the height we want the data table to be
         var top = $('#data_table_wrapper')[0].getBoundingClientRect().top;
-        var height = $(document).height() - top - 200;
+        var height = ($(document).height() - top)/2;
 
         const headerCallback = function(thead, data) {
             const headers = $(thead).find('th');
