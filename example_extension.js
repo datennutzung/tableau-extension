@@ -2,7 +2,7 @@
 
 // Use the jQuery document ready signal to know when everything has been initialized
 $(document).ready(function() {
-    console.log("Using v0.1")
+    console.log("Using v0.11")
     // Tell Tableau we'd like to initialize our extension
     initializeButtons(); // muss noch weg
     tableau.extensions.initializeAsync().then(function() {
@@ -116,7 +116,7 @@ var data_table;
 function populateDataTable(data, columns) {
     // Do some UI setup here: change the visible section and reinitialize the table
     $('#data_table_wrapper').empty();
-    alert(columns);
+    alert(columns.title);
 
     if (data.length > 0) {
         $('#no_data_message').css('display', 'none');
@@ -211,7 +211,7 @@ function testData() {
     let t_data = ["05.07.2019 22:43:15", "1", "-234",
                 "05.04.2019 00:13:11", "2", "-543",
                 "01.04.2019 12:11:00", "0", "-123",];
-    populateDataTable(t_data, t_columns)
+    populateDataTable(t_data, t_columns);
 }
 
 // Save the columns we've applied filters to so we can reset them
