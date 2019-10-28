@@ -41,7 +41,7 @@ ul.closeable {
     margin-top: -1px; /* Prevent double borders */
     background-color: #f6f6f6;
     padding: 8px;
-    font-size: 12px;
+    font-size: 16px;
     text-decoration: none;
     color: black;
     display: block;
@@ -57,7 +57,7 @@ ul.closeable {
     position: absolute;
     top: 50%;
     right: 0%;
-    font-size: 18px;
+    font-size: 22px;
     padding: 4px 11px;
     transform: translate(0%, -50%);
   }

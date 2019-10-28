@@ -171,11 +171,15 @@ function initializeButtons() {
 var fdd_events = {data_step: 1337, data_start: "1970-01-01T00:00:00", data_end: "2999-12-31T23:59:59", ranges: []};
 
 function add_range_entry(array_pos) {
-    var start = fdd_events.ranges[array_pos].start.toISOString();
-    var end = fdd_events.ranges[array_pos].end.toISOString();
-    var fault = fdd_events.ranges[array_pos].is_fault;
+    let start_date = fdd_events.ranges[array_pos].start.toLocaleDateString();
+    let start_time = fdd_events.ranges[array_pos].start.toLocaleTimeString();
+    let start = start_date + " " + start_time;
+    let end_date = fdd_events.ranges[array_pos].end.toLocaleDateString();
+    let end_time = fdd_events.ranges[array_pos].end.toLocaleTimeString();
+    let end = end_date + " " + end_time;
+    let fault = fdd_events.ranges[array_pos].is_fault;
     
-    var li = "<li>"+array_pos+". "+start+" - "+end+" | Fault: "+fault+"<span class='btn-close' onclick='remove_range_entry(this)'>&times;</span></li>";
+    let li = "<li>"+array_pos+". "+start+" - "+end+" | Fault: "+fault+"<span class='btn-close' onclick='remove_range_entry(this)'>&times;</span></li>";
     $("#ranges_list").append(li);
     $("#ranges").show();
 }
@@ -209,7 +213,7 @@ function markSelectedData(fault, dateColumn = 1) {
 
 function submitRanges() {
     alert("Not done yet!");
-    console.log(JSON.parse(fdd_events));
+    console.log(JSON.stringify(fdd_events));
     // send fdd_events somewhere
 }
 
