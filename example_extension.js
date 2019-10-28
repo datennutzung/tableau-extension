@@ -195,8 +195,8 @@ function markSelectedData(fault, dateColumn = 0) {
     var first = new Date("2999-12-31T23:59:59");
     for (i_date in dates) {
         let date = new Date(i_date);
-        last = date>=last?date:last;
-        first = date<=first?date:first;
+        last = date>last?date:last;
+        first = date<first?date:first;
     }
     var range = {start: first, end: last, is_fault: fault};
     var length = fdd_events.ranges.push(range);
