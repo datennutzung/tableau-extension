@@ -67,7 +67,7 @@ function createButton(buttonTitle) {
 }
 
 // This variable will save off the function we can call to unregister listening to marks-selected events
-let unregisterEventHandlerFunction;
+var unregisterEventHandlerFunction;
 function loadSelectedMarks(worksheetName) {
     // Remove any existing event listeners
     if (unregisterEventHandlerFunction) {
@@ -110,10 +110,12 @@ function loadSelectedMarks(worksheetName) {
         loadSelectedMarks(worksheetName);
     });
 }
+
 var data_table;
 function populateDataTable(data, columns) {
     // Do some UI setup here: change the visible section and reinitialize the table
     $('#data_table_wrapper').empty();
+    alert(data)
 
     if (data.length > 0) {
         $('#no_data_message').css('display', 'none');
@@ -121,7 +123,7 @@ function populateDataTable(data, columns) {
 
         // Do some math to compute the height we want the data table to be
         var top = $('#data_table_wrapper')[0].getBoundingClientRect().top;
-        var height = $(document).height() - top - 150;
+        var height = $(document).height() - top - 200;
 
         const headerCallback = function(thead, data) {
             const headers = $(thead).find('th');
@@ -142,7 +144,7 @@ function populateDataTable(data, columns) {
         data_table = $('#data_table').DataTable({
             data: data,
             columns: columns,
-            autoWidth: true,
+            autoWidth: false,
             deferRender: true,
             scroller: true,
             scrollY: height,
@@ -163,7 +165,6 @@ function initializeButtons() {
     $('#reset_filters_button').click(resetFilters);
     $('#data_fault_button').click(function() {markSelectedData(true)});
     $('#data_correct_button').click(function() {markSelectedData(false)});
-    // $(".btn-close").click(function() {remove_range_entry(this)});
 }
 
 var fdd_events = {data_step: 1337, data_start: "1970-01-01T00:00:00", data_end: "2999-12-31T23:59:59", ranges: []};
