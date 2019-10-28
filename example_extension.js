@@ -2,7 +2,7 @@
 
 // Use the jQuery document ready signal to know when everything has been initialized
 $(document).ready(function() {
-    console.log("Using v0.1.4")
+    console.log("Using v0.1.5")
     // Tell Tableau we'd like to initialize our extension
     initializeButtons(); // muss noch weg
     tableau.extensions.initializeAsync().then(function() {
@@ -207,9 +207,9 @@ function markSelectedData(fault, dateColumn = 0) {
 
 function testData() {
     let t_columns = [{title:"Date Time"}, {title:"Fault"}, {title:"pH distillate"}];
-    let t_data = ["05.07.2019 22:43:15", "1", "-234",
-                "05.04.2019 00:13:11", "2", "-543",
-                "01.04.2019 12:11:00", "0", "-123",];
+    let t_data = [["05.07.2019 22:43:15", "1", "-234"],
+                  ["05.04.2019 00:13:11", "2", "-543"],
+                  ["01.04.2019 12:11:00", "0", "-123"]];
     populateDataTable(t_data, t_columns);
 }
 
