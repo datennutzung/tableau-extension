@@ -115,7 +115,7 @@ var data_table;
 function populateDataTable(data, columns) {
     // Do some UI setup here: change the visible section and reinitialize the table
     $('#data_table_wrapper').empty();
-    alert(data)
+    alert(columns);
 
     if (data.length > 0) {
         $('#no_data_message').css('display', 'none');
@@ -203,6 +203,14 @@ function markSelectedData(fault, dateColumn = 0) {
     var length = fdd_events.ranges.push(range);
     // clear selection
     add_range_entry(length-1);
+}
+
+function testData() {
+    columns = [];
+    data = ["05.07.2019 22:43:15", "1", "-234",
+            "05.04.2019 00:13:11", "2", "-543",
+            "01.04.2019 12:11:00", "0", "-123",];
+
 }
 
 // Save the columns we've applied filters to so we can reset them
