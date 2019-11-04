@@ -162,7 +162,7 @@ function populateDataTable(data, columns) {
 var dateColumn = 0;
 function dateColumnChange() {
     do {
-        dateColumn = prompt("Enter the index of the Date Time column", dateColumn);
+        dateColumn = prompt("Enter the index of the Date Time column:", dateColumn);
         if (dateColumn == "" || isNaN(dateColumn)) {
             var again = true;
             alert("'"+dateColumn + "' is not a number");
