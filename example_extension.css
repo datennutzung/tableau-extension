@@ -8,15 +8,7 @@ div.DTS div.dataTables_scrollBody {
 
 #date_column_change_button {
   float: right;
-  font-weight: bold;
-}
-
-#date_column_change_button:hover {
-  text-decoration: none;
-}
-
-#date_column_change_button:active {
-  text-decoration: none;
+  margin-top: 6px;
 }
 
 #btn_fault_group {
