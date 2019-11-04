@@ -159,12 +159,27 @@ function populateDataTable(data, columns) {
     }
 }
 
+var dateColumn = 0;
+function dateColumnChange() {
+    do {
+        dateColumn = prompt("Enter the index of the Date Time column", dateColumn);
+        if (dateColumn == null || dateColumn == "" || isNaN(dateColumn)) {
+            var again = true;
+            alert("'"+dateColumn + "' is not a number");
+        } else {
+            var again = false;
+            dateColumn = parseInt(dateColumn);
+        }
+    } while(again);
+}
+
 function initializeButtons() {
     $('#show_choose_sheet_button').click(showChooseSheetDialog);
     $('#reset_filters_button').click(resetFilters);
-    $('#data_fault_button').click(function() {markSelectedData(false)});
-    $('#data_correct_button').click(function() {markSelectedData(true)});
-    $('#ranges_submit_button').click(submitRanges)
+    $('#data_fault_button').click(function() {markSelectedData(false, dateColumn)});
+    $('#data_correct_button').click(function() {markSelectedData(true, dateColumn)});
+    $('#ranges_submit_button').click(submitRanges);
+    $('#date_column_change_button').click(dateColumnChange);
 }
 
 var fdd_events = {data_step: 1337, data_start: "1970-01-01T00:00:00", data_end: "2999-12-31T23:59:59", ranges: []};
@@ -236,7 +251,6 @@ function formatDateTime(datetime="", date_sep=".", date_time_sep=" ", dateFormat
 }
 
 function submitRanges() {
-    alert("Not done yet!");
     for (var range_index = 0; range_index <= fdd_event_ranges.length; range_index++) {
         if (fdd_event_ranges[range_index] != null) {
             fdd_events.ranges.push(fdd_event_ranges[range_index]);
@@ -244,6 +258,7 @@ function submitRanges() {
     }
     var to_send = JSON.stringify(fdd_events);
     console.log(to_send);
+    alert("//TODO");
     // send fdd_events somewhere
 }
 
