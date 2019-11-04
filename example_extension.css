@@ -6,6 +6,19 @@ div.DTS div.dataTables_scrollBody {
     background: white;
 }
 
+#date_column_change_button {
+  float: right;
+  font-weight: bold;
+}
+
+#date_column_change_button:hover {
+  text-decoration: none;
+}
+
+#date_column_change_button:active {
+  text-decoration: none;
+}
+
 #btn_fault_group {
     width: 100%;
     height: 38px;

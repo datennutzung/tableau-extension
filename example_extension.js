@@ -162,15 +162,15 @@ function populateDataTable(data, columns) {
 var dateColumn = 0;
 function dateColumnChange() {
     do {
-        dateColumn = prompt("Enter the index of the Date Time column:", dateColumn);
-        if (dateColumn == "" || isNaN(dateColumn)) {
+        var inputted = prompt("Enter the index of the Date Time column:", dateColumn);
+        if (inputted == "" || isNaN(inputted)) {
             var again = true;
-            alert("'"+dateColumn + "' is not a number");
-        } else if (dateColumn == null) {
+            alert("'"+inputted + "' is not a number");
+        } else if (inputted == null) {
             var again = false;
         } else {
             var again = false;
-            dateColumn = parseInt(dateColumn);
+            dateColumn = parseInt(inputted);
             $('#date_column_change_button').text(dateColumn)
         }
     } while(again);
