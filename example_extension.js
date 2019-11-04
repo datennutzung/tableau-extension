@@ -2,7 +2,7 @@
 
 // Use the jQuery document ready signal to know when everything has been initialized
 $(document).ready(function() {
-    console.log("Using v0.2.2 ")
+    console.log("Using v0.2.4")
     // Tell Tableau we'd like to initialize our extension
     initializeButtons(); // muss unter das initialize extension
     tableau.extensions.initializeAsync().then(function() {
@@ -163,12 +163,15 @@ var dateColumn = 0;
 function dateColumnChange() {
     do {
         dateColumn = prompt("Enter the index of the Date Time column", dateColumn);
-        if (dateColumn == null || dateColumn == "" || isNaN(dateColumn)) {
+        if (dateColumn == "" || isNaN(dateColumn)) {
             var again = true;
             alert("'"+dateColumn + "' is not a number");
+        } else if (dateColumn == null) {
+            var again = false;
         } else {
             var again = false;
             dateColumn = parseInt(dateColumn);
+            $('#date_column_change_button').text(dateColumn)
         }
     } while(again);
 }
