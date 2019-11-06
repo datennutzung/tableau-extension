@@ -9,6 +9,13 @@ div.DTS div.dataTables_scrollBody {
 #date_column_change_button {
   float: right;
   margin-top: 6px;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+}
+
+#app_settings_button {
+  float: right;
 }
 
 #btn_fault_group {

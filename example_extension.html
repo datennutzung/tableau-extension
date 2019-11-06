@@ -33,7 +33,10 @@
                     <button title="Reset Filters" type="button" class="btn btn-link" id="reset_filters_button">
                         <i class="material-icons">low_priority</i>
                     </button>
-                    <button title="Change Date Time Column" type="button" class="btn btn-info btn-sm" id="date_column_change_button">0</button>
+                    <button title="Settings" type="button" class="btn btn-link" id="app_settings_button" data-toggle="modal" data-target="#app_settings_modal">
+                            <i class="material-icons">settings_applications</i>
+                    </button>
+                    <button hidden title="Change Date Time Column" type="button" class="btn btn-primary btn-sm" id="date_column_change_button">0</button>
                 </h4>
                 <div id="data_table_wrapper"></div>
                 <div id="no_data_message">
@@ -49,7 +52,7 @@
                 <button id="ranges_submit_button" type="submit" class="btn btn-primary btn-submit">Submit</button>
             </div>
         </div>
-        
+
         <!-- Choose Sheet Dialog (See https://www.w3schools.com/bootstrap/bootstrap_modal.asp for bootstrap dialog info) -->
         <div id="choose_sheet_dialog" class="modal fade" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
@@ -62,6 +65,38 @@
                     </div>
                     <div class="modal-body">
                         <div id="choose_sheet_buttons"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Menu -->
+        <div class="modal fade" id="app_settings_modal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="app_settings_modal_title">Settings</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="select_datetime_column">Select DateTime</label>
+                            </div>
+                            <select class="custom-select" id="select_datetime_column">
+                                <option selected>Choose...</option>
+                                <option value="0">Date Time</option>
+                                <option value="1">pH distillate</option>
+                                <option value="2">Fault</option>
+                            </select>
+                        </div>
+                        <hr>
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-primary" id="save_settings_button" data-dismiss="modal">Save & Exit</button>
                     </div>
                 </div>
             </div>

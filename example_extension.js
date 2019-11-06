@@ -2,7 +2,7 @@
 
 // Use the jQuery document ready signal to know when everything has been initialized
 $(document).ready(function() {
-    console.log("Using v0.2.4")
+    console.log("Using v0.2.5")
     // Tell Tableau we'd like to initialize our extension
     initializeButtons(); // muss unter das initialize extension
     tableau.extensions.initializeAsync().then(function() {
@@ -112,11 +112,15 @@ function loadSelectedMarks(worksheetName) {
 }
 
 var data_table;
-function populateDataTable(data, columns) {
+var data;
+var columns;
+function populateDataTable(p_data, p_columns) {
+    data = p_data;
+    columns = p_columns;
     // Do some UI setup here: change the visible section and reinitialize the table
     $('#data_table_wrapper').empty();
 
-    if (data.length > 0) {
+    if (p_data.length > 0) {
         $('#no_data_message').css('display', 'none');
         $('#data_table_wrapper').append(`<table id='data_table' class='table table-striped table-bordered'></table>`);
 
@@ -124,7 +128,7 @@ function populateDataTable(data, columns) {
         var top = $('#data_table_wrapper')[0].getBoundingClientRect().top;
         var height = ($(document).height() - top)/2;
 
-        const headerCallback = function(thead, data) {
+        const headerCallback = function(thead, p_data) {
             const headers = $(thead).find('th');
             for (let i = 0; i < headers.length; i++) {
                 const header = $(headers[i]);
@@ -141,8 +145,8 @@ function populateDataTable(data, columns) {
 
         // Initialize our data table with what we just gathered
         data_table = $('#data_table').DataTable({
-            data: data,
-            columns: columns,
+            data: p_data,
+            columns: p_columns,
             autoWidth: false,
             deferRender: true,
             scroller: true,
@@ -160,20 +164,28 @@ function populateDataTable(data, columns) {
 }
 
 var dateColumn = 0;
-function dateColumnChange() {
-    do {
-        var inputted = prompt("Enter the index of the Date Time column:", dateColumn);
-        if (inputted == "" || isNaN(inputted)) {
-            var again = true;
-            alert("'"+inputted + "' is not a number");
-        } else if (inputted == null) {
-            var again = false;
-        } else {
-            var again = false;
-            dateColumn = parseInt(inputted);
-            $('#date_column_change_button').text(dateColumn)
+function loadSettings() {
+    // select datetime column
+    let selectColumn = $('#select_datetime_column')
+    selectColumn.empty();
+    if (columns !== undefined) {
+        selectColumn.prop("disabled", false);
+        for (let i = 0; i < columns.length; i++) {
+            if (i == dateColumn) {
+                selectColumn.append("<option value="+i+" selected>"+columns[i].title+"</option>")
+            } else {
+                selectColumn.append("<option value="+i+">"+columns[i].title+"</option>")
+            }
         }
-    } while(again);
+    } else {
+        selectColumn.prop("disabled", true)
+    }
+    // next settings
+
+}
+
+function saveSettings() {
+    dateColumn = $("#select_datetime_column :selected").val();
 }
 
 function initializeButtons() {
@@ -182,7 +194,8 @@ function initializeButtons() {
     $('#data_fault_button').click(function() {markSelectedData(false, dateColumn)});
     $('#data_correct_button').click(function() {markSelectedData(true, dateColumn)});
     $('#ranges_submit_button').click(submitRanges);
-    $('#date_column_change_button').click(dateColumnChange);
+    $('#app_settings_button').click(loadSettings);
+    $('#save_settings_button').click(saveSettings);
 }
 
 var fdd_events = {data_step: 1337, data_start: "1970-01-01T00:00:00", data_end: "2999-12-31T23:59:59", ranges: []};
@@ -202,7 +215,7 @@ function add_range_entry(array_pos) {
 }
 
 function remove_range_entry(object) {
-    var array_pos = parseInt(object.parentElement.innerText.split(".")[0], 10);
+    let array_pos = parseInt(object.parentElement.innerText.split(".")[0], 10);
     delete fdd_event_ranges[array_pos];
     object.parentElement.remove();
 
@@ -213,16 +226,16 @@ function remove_range_entry(object) {
 
 function markSelectedData(fault, dateColumn = 0) {
     // get the list of marks as selected_marks
-    var dates = data_table.column(dateColumn).data().toArray();
-    var last = new Date("1970-01-01T00:00:00");
-    var first = new Date("2999-12-31T23:59:59");
-    for (var i = 0; i<dates.length; i++) {
+    let dates = data_table.column(dateColumn).data().toArray();
+    let last = new Date("1970-01-01T00:00:00");
+    let first = new Date("2999-12-31T23:59:59");
+    for (let i = 0; i<dates.length; i++) {
         let date = formatDateTime(dates[i]);
         last = date>last?date:last;
         first = date<first?date:first;
     }
-    var range = {start: first, end: last, is_fault: fault};
-    var length = fdd_event_ranges.push(range);
+    let range = {start: first, end: last, is_fault: fault};
+    let length = fdd_event_ranges.push(range);
     add_range_entry(length-1);
 }
 
@@ -254,12 +267,12 @@ function formatDateTime(datetime="", date_sep=".", date_time_sep=" ", dateFormat
 }
 
 function submitRanges() {
-    for (var range_index = 0; range_index <= fdd_event_ranges.length; range_index++) {
+    for (let range_index = 0; range_index <= fdd_event_ranges.length; range_index++) {
         if (fdd_event_ranges[range_index] != null) {
             fdd_events.ranges.push(fdd_event_ranges[range_index]);
         }
     }
-    var to_send = JSON.stringify(fdd_events);
+    let to_send = JSON.stringify(fdd_events);
     console.log(to_send);
     alert("//TODO");
     // send fdd_events somewhere
