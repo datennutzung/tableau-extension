@@ -33,7 +33,7 @@
                     <button title="Reset Filters" type="button" class="btn btn-link" id="reset_filters_button">
                         <i class="material-icons">low_priority</i>
                     </button>
-                    <button title="Settings" type="button" class="btn btn-link" id="app_settings_button" data-toggle="modal" data-target="#app_settings_modal">
+                    <button title="Settings" type="button" class="btn btn-link" id="app_settings_button">
                             <i class="material-icons">settings_applications</i>
                     </button>
                     <button hidden title="Change Date Time Column" type="button" class="btn btn-primary btn-sm" id="date_column_change_button">0</button>
@@ -49,7 +49,7 @@
             </div>
             <div id="ranges" style="display:none">
                 <ul class="closeable" id="ranges_list"></ul>
-                <button id="ranges_submit_button" type="submit" class="btn btn-primary btn-submit">Submit</button>
+                <button id="ranges_submit_button" type="button" class="btn btn-primary btn-submit">Submit</button>
             </div>
         </div>
 
@@ -83,17 +83,26 @@
                     <div class="modal-body">
                         <div class="input-group">
                             <div class="input-group-prepend">
-                                <label class="input-group-text" for="select_datetime_column">Select DateTime</label>
+                                <label class="input-group-text" for="select_datetime_column">Select DateTime Column</label>
                             </div>
-                            <select class="custom-select" id="select_datetime_column">
-                                <option selected>Choose...</option>
-                                <option value="0">Date Time</option>
-                                <option value="1">pH distillate</option>
-                                <option value="2">Fault</option>
-                            </select>
+                            <select class="custom-select" id="select_datetime_column"></select>
                         </div>
                         <hr>
-                        ...
+                        <form>
+                            <div class="form-group">
+                                <label for="input_server">Feedback-Server</label>
+                                <input type="url" class="form-control" id="input_server" placeholder="Enter URL of Feedback server">
+                            </div>
+                            <div class="form-group">
+                                <label for="input_username">Username</label>
+                                <input type="text" class="form-control" id="input_username" placeholder="Enter username">
+                            </div>
+                            <div class="form-group">
+                                <label for="input_password">Password</label>
+                                <input type="password" class="form-control" id="input_password" placeholder="Enter password">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-primary" id="save_settings_button" data-dismiss="modal">Save & Exit</button>

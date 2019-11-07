@@ -6,14 +6,6 @@ div.DTS div.dataTables_scrollBody {
     background: white;
 }
 
-#date_column_change_button {
-  float: right;
-  margin-top: 6px;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-}
-
 #app_settings_button {
   float: right;
 }
@@ -32,7 +24,7 @@ div.DTS div.dataTables_scrollBody {
     width: 120px;
 }
 
-.btn-submit {
+#ranges_submit_button {
   float: right;
 }
 

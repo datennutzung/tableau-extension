@@ -182,6 +182,7 @@ function loadSettings() {
     }
     // next settings
 
+    $('#app_settings_modal').modal("show");
 }
 
 function saveSettings() {
@@ -267,6 +268,7 @@ function formatDateTime(datetime="", date_sep=".", date_time_sep=" ", dateFormat
 }
 
 function submitRanges() {
+    fdd_events.ranges = [];
     for (let range_index = 0; range_index <= fdd_event_ranges.length; range_index++) {
         if (fdd_event_ranges[range_index] != null) {
             fdd_events.ranges.push(fdd_event_ranges[range_index]);
@@ -274,7 +276,8 @@ function submitRanges() {
     }
     let to_send = JSON.stringify(fdd_events);
     console.log(to_send);
-    alert("//TODO");
+    $('#app_settings_modal').modal("show");
+    // alert("//TODO");
     // send fdd_events somewhere
 }
 
