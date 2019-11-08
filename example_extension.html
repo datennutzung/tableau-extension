@@ -33,7 +33,7 @@
                     <button title="Reset Filters" type="button" class="btn btn-link" id="reset_filters_button">
                         <i class="material-icons">low_priority</i>
                     </button>
-                    <button title="Settings" type="button" class="btn btn-link" id="app_settings_button">
+                    <button title="Open Settings Menu" type="button" class="btn btn-link" id="app_settings_button">
                             <i class="material-icons">settings_applications</i>
                     </button>
                     <button hidden title="Change Date Time Column" type="button" class="btn btn-primary btn-sm" id="date_column_change_button">0</button>
@@ -43,13 +43,13 @@
                     <h5 class="text-center">No marks selected</h5>
                 </div>
                 <div id="btn_fault_group" style="display:none">
-                    <button id="data_fault_button" type="button" class="btn btn-danger btn-fault">Mark Fault</button>
-                    <button id="data_correct_button" type="button" class="btn btn-success btn-fault">Mark Correct</button>
+                        <button id="data_fault_button" type="button" class="btn btn-danger btn-fault" title="Mark items in list as faulty">Mark Fault</button>
+                    <button id="data_correct_button" type="button" class="btn btn-success btn-fault" title="Mark items in list as correct">Mark Correct</button>
                 </div>
             </div>
             <div id="ranges" style="display:none">
                 <ul class="closeable" id="ranges_list"></ul>
-                <button id="ranges_submit_button" type="button" class="btn btn-primary btn-submit">Submit</button>
+                <button id="ranges_submit_button" type="button" class="btn btn-primary btn-submit" title="Submit the entries to the feedback server">Submit</button>
             </div>
         </div>
 
@@ -72,7 +72,7 @@
 
         <!-- Settings Menu -->
         <div class="modal fade" id="app_settings_modal" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog" role="document">
+            <div class="modal-dialog modal-dialog-scrollable" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="app_settings_modal_title">Settings</h5>
@@ -81,31 +81,31 @@
                         </button>
                     </div>
                     <div class="modal-body">
+                        <label>Select Column With DateTime Information:</label>
                         <div class="input-group">
                             <div class="input-group-prepend">
-                                <label class="input-group-text" for="select_datetime_column">Select DateTime Column</label>
+                                <label class="input-group-text" for="select_datetime_column">Column:</label>
                             </div>
-                            <select class="custom-select" id="select_datetime_column"></select>
+                            <select class="custom-select" id="select_datetime_column" title="Select DateTime Column"></select>
                         </div>
                         <hr>
                         <form>
+                            <label>Feedback Server Information</label>
                             <div class="form-group">
-                                <label for="input_server">Feedback-Server</label>
-                                <input type="url" class="form-control" id="input_server" placeholder="Enter URL of Feedback server">
+                                <input type="url" class="form-control" id="input_feedback_server" placeholder="Enter URL of Feedback server" title="Feedback Server URL">
                             </div>
-                            <div class="form-group">
-                                <label for="input_username">Username</label>
-                                <input type="text" class="form-control" id="input_username" placeholder="Enter username">
+                            <div class="form-row">
+                                <div class="form-group col">
+                                    <input type="text" class="form-control" id="input_feedback_username" placeholder="Enter username" title="Username"></div>
+                                <div class="form-group col">
+                                    <input type="password" class="form-control" id="input_feedback_password" placeholder="Enter password" title="Password" oninput="this.type='password'">
+                                    <span toggle="#input_feedback_password" class="toggle-password"><i class="material-icons">remove_red_eye</i></span>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="input_password">Password</label>
-                                <input type="password" class="form-control" id="input_password" placeholder="Enter password">
-                            </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
                         </form>
                     </div>
                     <div class="modal-footer">
-                      <button type="button" class="btn btn-primary" id="save_settings_button" data-dismiss="modal">Save & Exit</button>
+                      <button type="button" class="btn btn-primary" id="save_settings_button">Save & Exit</button>
                     </div>
                 </div>
             </div>

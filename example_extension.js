@@ -164,6 +164,10 @@ function populateDataTable(p_data, p_columns) {
 }
 
 var dateColumn = 0;
+var feedback_url = "";
+var username = "";
+var password = "";
+
 function loadSettings() {
     // select datetime column
     let selectColumn = $('#select_datetime_column')
@@ -180,13 +184,29 @@ function loadSettings() {
     } else {
         selectColumn.prop("disabled", true)
     }
-    // next settings
+    $('#input_feedback_server').val(feedback_url);
+    $('#input_feedback_username').val(username);
+    $('#input_feedback_password').val(password);
 
     $('#app_settings_modal').modal("show");
 }
 
+function togglePassword() {
+    var input = $($(this).attr("toggle"));
+    if (input.attr("type") == "password") {
+      input.attr("type", "text");
+    } else {
+      input.attr("type", "password");
+    }
+}
+
 function saveSettings() {
     dateColumn = $("#select_datetime_column :selected").val();
+    feedback_url = $('#input_feedback_server').val();
+    username = $('#input_feedback_username').val();
+    password = $('#input_feedback_password').val();
+
+    $('#app_settings_modal').modal("hide");
 }
 
 function initializeButtons() {
@@ -197,6 +217,8 @@ function initializeButtons() {
     $('#ranges_submit_button').click(submitRanges);
     $('#app_settings_button').click(loadSettings);
     $('#save_settings_button').click(saveSettings);
+    $('.toggle-password').click(togglePassword);
+
 }
 
 var fdd_events = {data_step: 1337, data_start: "1970-01-01T00:00:00", data_end: "2999-12-31T23:59:59", ranges: []};
