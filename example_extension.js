@@ -296,11 +296,13 @@ function submitRanges() {
             fdd_events.ranges.push(fdd_event_ranges[range_index]);
         }
     }
-    let to_send = JSON.stringify(fdd_events);
-    console.log(to_send);
-    $('#app_settings_modal').modal("show");
-    // alert("//TODO");
-    // send fdd_events somewhere
+    if (feedback_url == "") {
+        $('#app_settings_modal').modal("show");
+    } else {
+        // send fdd_events to feedback server
+        let to_send = JSON.stringify(fdd_events);
+        console.log(to_send);
+    }   
 }
 
 function testData() {
