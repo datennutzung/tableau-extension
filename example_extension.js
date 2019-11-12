@@ -186,7 +186,10 @@ function loadSettings() {
     }
     $('#input_feedback_server').val(feedback_url);
     $('#input_feedback_username').val(username);
-    $('#input_feedback_password').val(password);
+    $('#input_feedback_password').val("");
+    if (password != "") {
+        $('#input_feedback_password').attr("placeholder", "(unchanged)")
+    }
 
     $('#app_settings_modal').modal("show");
 }
@@ -204,7 +207,7 @@ function saveSettings() {
     dateColumn = $("#select_datetime_column :selected").val();
     feedback_url = $('#input_feedback_server').val();
     username = $('#input_feedback_username').val();
-    password = $('#input_feedback_password').val();
+    password = $('#input_feedback_password').val()==""?password:$('#input_feedback_password').val();
 
     $('#app_settings_modal').modal("hide");
 }
