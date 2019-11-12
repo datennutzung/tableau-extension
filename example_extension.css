@@ -10,13 +10,14 @@ div.DTS div.dataTables_scrollBody {
   float: right;
 }
 
-#input_feedback_password {
-  padding-right: 24px;
+.toggleable-password {
+  padding-right: 29px;
 }
 
 .toggle-password {
   float: right;
   margin-top: -30px;
+  margin-right: 5px;
   position: relative;
   z-index: 2;
   cursor: pointer;

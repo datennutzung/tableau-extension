@@ -212,13 +212,13 @@ function saveSettings() {
 function initializeButtons() {
     $('#show_choose_sheet_button').click(showChooseSheetDialog);
     $('#reset_filters_button').click(resetFilters);
-    $('#data_fault_button').click(function() {markSelectedData(false, dateColumn)});
-    $('#data_correct_button').click(function() {markSelectedData(true, dateColumn)});
+    $('#data_fault_button').click(function() {markSelectedAsFault(true, dateColumn)});
+    $('#data_correct_button').click(function() {markSelectedAsFault(false, dateColumn)});
     $('#ranges_submit_button').click(submitRanges);
     $('#app_settings_button').click(loadSettings);
     $('#save_settings_button').click(saveSettings);
     $('.toggle-password').click(togglePassword);
-
+    $('#test_data_button').click(testData);
 }
 
 var fdd_events = {data_step: 1337, data_start: "1970-01-01T00:00:00", data_end: "2999-12-31T23:59:59", ranges: []};
@@ -247,7 +247,7 @@ function remove_range_entry(object) {
     }
 }
 
-function markSelectedData(fault, dateColumn = 0) {
+function markSelectedAsFault(fault, dateColumn = 0) {
     // get the list of marks as selected_marks
     let dates = data_table.column(dateColumn).data().toArray();
     let last = new Date("1970-01-01T00:00:00");
@@ -307,10 +307,40 @@ function submitRanges() {
 
 function testData() {
     let t_columns = [{title:"Date Time"}, {title:"Fault"}, {title:"pH distillate"}];
-    let t_data = [["05.07.2019 22:43:15", "1", "-234"],
-                  ["05.04.2019 00:13:11", "2", "-543"],
-                  ["01.04.2019 12:11:00", "0", "-123"]];
+    let t_data = [["05.07.2019 22:43:15", "1", "18"],
+                  ["05.04.2019 00:13:11", "2", "3"],
+                  ["01.04.2019 12:11:00", "0", "7"]];
+    let data_count = 9;
+    for (let i = 0; i <= data_count; i++) {
+        t_data[i] = [myRandom("DateTime"), myRandom("Fault"), myRandom("ph")]
+    }
     populateDataTable(t_data, t_columns);
+}
+
+
+function myRandom(what = 4) {
+    switch (what) {
+        case 'DateTime':
+            let y = Math.floor(2000 + Math.random() * 20);
+            let m = Math.floor(1 + Math.random() * 12);
+            m = m>9?m:"0"+m
+            let d = Math.floor(1 + Math.random() * 28);
+            d = d>9?d:"0"+d
+            let h = Math.floor(Math.random() * 25);
+            h = h>9?h:"0"+h
+            let mt = Math.floor(Math.random() * 60);
+            mt = mt>9?mt:"0"+mt
+            let s = Math.floor(Math.random() * 60);
+            s = s>9?s:"0"+s
+            return `${d}.${m}.${y} ${h}:${mt}:${s}`;
+        case 'Fault':
+            return Math.floor(Math.random() * 3);
+        case 'ph':
+            return Math.floor(1+ Math.random() * 14)
+        default:
+            return 4; // chosen by fair dice roll
+                      // guaranteed to be fair
+    }
 }
 
 // Save the columns we've applied filters to so we can reset them
