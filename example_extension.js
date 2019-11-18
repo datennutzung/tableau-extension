@@ -310,7 +310,7 @@ function submitRanges() {
 
 function testData() {
     let t_columns = [{title:"Date Time"}, {title:"Fault"}, {title:"pH distillate"}];
-    let t_data = [["05.07.2019 22:43:15", "1", "18"],
+    let t_data = [["07.04.2019 22:43:15", "1", "18"],
                   ["05.04.2019 00:13:11", "2", "3"],
                   ["01.04.2019 12:11:00", "0", "7"]];
     populateDataTable(t_data, t_columns);
@@ -352,3 +352,12 @@ function getSelectedSheet(worksheetName) {
         return sheet.name === worksheetName;
     });
 }
+
+/*
+
+DATEADD(
+'hour', DATEPART('hour', [Time]), DATEADD(
+'minute', DATEPART('minute', [Time]), DATEADD(
+'second', DATEPART('second', [Time]), [#Date])))
+
+*/
