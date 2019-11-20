@@ -2,7 +2,7 @@
 
 // Use the jQuery document ready signal to know when everything has been initialized
 $(document).ready(function() {
-    console.log("Using v0.2.5")
+    console.log("Using v0.2.6")
     // Tell Tableau we'd like to initialize our extension
     initializeButtons(); // muss unter das initialize extension
     tableau.extensions.initializeAsync().then(function() {
@@ -116,11 +116,11 @@ var data;
 var columns;
 function populateDataTable(p_data, p_columns) {
     data = p_data;
-    columns = p_columns;
     // Do some UI setup here: change the visible section and reinitialize the table
     $('#data_table_wrapper').empty();
 
     if (p_data.length > 0) {
+        columns = p_columns;
         $('#no_data_message').css('display', 'none');
         $('#data_table_wrapper').append(`<table id='data_table' class='table table-striped table-bordered'></table>`);
 
@@ -164,31 +164,42 @@ function populateDataTable(p_data, p_columns) {
 }
 
 var dateColumn = 0;
+var groupID_string = columns[1].title;
 var feedback_url = "";
 var username = "";
 var password = "";
 
 function loadSettings() {
-    // select datetime column
-    let selectColumn = $('#select_datetime_column')
-    selectColumn.empty();
+    // select datetime column and groupId
+    let selectDatetimeColumn = $('#select_datetime_column');
+    let selectGroupColumn = $('#select_group_column');
+    selectDatetimeColumn.empty();
+    selectGroupColumn.empty();
     if (columns !== undefined) {
-        selectColumn.prop("disabled", false);
+        selectDatetimeColumn.prop("disabled", false);
+        selectGroupColumn.prop("disabled", false);
         for (let i = 0; i < columns.length; i++) {
             if (i == dateColumn) {
-                selectColumn.append("<option value="+i+" selected>"+columns[i].title+"</option>")
+                selectDatetimeColumn.append("<option value="+i+" selected>"+columns[i].title+"</option>");
             } else {
-                selectColumn.append("<option value="+i+">"+columns[i].title+"</option>")
+                selectDatetimeColumn.append("<option value="+i+">"+columns[i].title+"</option>");
+            }
+            if (columns[i].title == groupID_string) {
+                selectGroupColumn.append("<option value="+i+" selected>"+columns[i].title+"</option>");
+            } else {
+                selectGroupColumn.append("<option value="+i+">"+columns[i].title+"</option>");
             }
         }
     } else {
-        selectColumn.prop("disabled", true)
+        selectDatetimeColumn.prop("disabled", true);
+        selectGroupColumn.prop("disabled", true);
     }
+
     $('#input_feedback_server').val(feedback_url);
     $('#input_feedback_username').val(username);
     $('#input_feedback_password').val("");
     if (password != "") {
-        $('#input_feedback_password').attr("placeholder", "(unchanged)")
+        $('#input_feedback_password').attr("placeholder", "(*unchanged*)")
     }
 
     $('#app_settings_modal').modal("show");
@@ -205,6 +216,7 @@ function togglePassword() {
 
 function saveSettings() {
     dateColumn = $("#select_datetime_column :selected").val();
+    groupID_string = $("#select_group_column :selected").text();
     feedback_url = $('#input_feedback_server').val();
     username = $('#input_feedback_username').val();
     password = $('#input_feedback_password').val()==""?password:$('#input_feedback_password').val();
@@ -224,9 +236,29 @@ function initializeButtons() {
     $('#test_data_button').click(testData);
 }
 
+function deleteGroupsTableEntry() {
+    // TODO    
+}
+
+function createGroupsTableHeaders(group_header_string, sep) {
+    let group_header_array = group_header_string.split(sep);
+    let thead = $('#groups_table_head');
+    thead.empty();
+    let row = thead[0].insertRow(0);
+    for(let i = 0; i < group_header_array.length; i++) {
+        let cell =  row.insertCell(i);
+        cell.innerHTML = "<b>"+group_header_array[i]+"</b>";
+    }
+}
+
+function createGroupsTableEntry(group_string, sep)  {
+    let group_array = group_string.split(sep);
+    let tbody = $('#groups_table_body')[0];
+}
+
 var fdd_events = {data_step: 1337, data_start: "1970-01-01T00:00:00", data_end: "2999-12-31T23:59:59", ranges: []};
 var fdd_event_ranges = [];
-function add_range_entry(array_pos) {
+function addRangeEntry(array_pos) {
     let start_date = fdd_event_ranges[array_pos].start.toLocaleDateString();
     let start_time = fdd_event_ranges[array_pos].start.toLocaleTimeString();
     let start = start_date + " " + start_time;
@@ -235,12 +267,12 @@ function add_range_entry(array_pos) {
     let end = end_date + " " + end_time;
     let fault = fdd_event_ranges[array_pos].is_fault;
     
-    let li = "<li>"+array_pos+". "+start+" - "+end+" | Fault: "+fault+"<span class='btn-close' onclick='remove_range_entry(this)'>&times;</span></li>";
+    let li = "<li>"+array_pos+". "+start+" - "+end+" | Fault: "+fault+"<span class='btn-close' onclick='removeRangeEntry(this)'>&times;</span></li>";
     $("#ranges_list").append(li);
     $("#ranges").show();
 }
 
-function remove_range_entry(object) {
+function removeRangeEntry(object) {
     let array_pos = parseInt(object.parentElement.innerText.split(".")[0], 10);
     delete fdd_event_ranges[array_pos];
     object.parentElement.remove();
@@ -262,7 +294,7 @@ function markSelectedAsFault(fault, dateColumn = 0) {
     }
     let range = {start: first, end: last, is_fault: fault};
     let length = fdd_event_ranges.push(range);
-    add_range_entry(length-1);
+    addRangeEntry(length-1);
 }
 
 function formatDateTime(datetime="", date_sep=".", date_time_sep=" ", dateFormat="dmy") {
@@ -272,14 +304,14 @@ function formatDateTime(datetime="", date_sep=".", date_time_sep=" ", dateFormat
     let date_arr = date_str.split(date_sep);
     switch (dateFormat) { 
         case "dmy":
-                var day = date_arr[0];
-                var month = date_arr[1];
-                var year = date_arr[2];
+            var day = date_arr[0];
+            var month = date_arr[1];
+            var year = date_arr[2];
             break;
         case "ymd":
-                var year = date_arr[0];
-                var month = date_arr[1];
-                var day = date_arr[2];
+            var year = date_arr[0];
+            var month = date_arr[1];
+            var day = date_arr[2];
             break;
         case "mdy":
         default:
