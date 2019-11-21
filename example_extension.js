@@ -164,7 +164,7 @@ function populateDataTable(p_data, p_columns) {
 }
 
 var dateColumn = 0;
-var groupID_string = columns[1].title;
+var groupID_string = "";
 var feedback_url = "";
 var username = "";
 var password = "";
@@ -303,9 +303,9 @@ function formatDateTime(datetime="", date_sep=".", date_time_sep=" ", dateFormat
     let time_str = date_time[1];
     let date_arr = date_str.split(date_sep);
     switch (dateFormat) { 
-        case "dmy":
-            var day = date_arr[0];
-            var month = date_arr[1];
+        case "mdy":
+            var month = date_arr[0];
+            var day = date_arr[1];
             var year = date_arr[2];
             break;
         case "ymd":
@@ -313,10 +313,10 @@ function formatDateTime(datetime="", date_sep=".", date_time_sep=" ", dateFormat
             var month = date_arr[1];
             var day = date_arr[2];
             break;
-        case "mdy":
+        case "dmy":
         default:
-            var month = date_arr[0];
-            var day = date_arr[1];
+            var day = date_arr[0];
+            var month = date_arr[1];
             var year = date_arr[2];
         break;
     }
