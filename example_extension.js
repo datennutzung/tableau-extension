@@ -1,8 +1,9 @@
 'use strict';
+const versionNumber = "0.2.7"
 
 // Use the jQuery document ready signal to know when everything has been initialized
 $(document).ready(function() {
-    console.log("Using v0.2.7")
+    console.log("Using v"+versionNumber)
     // Tell Tableau we'd like to initialize our extension
     initializeButtons(); // muss unter das initialize extension
     tableau.extensions.initializeAsync().then(function() {
@@ -197,7 +198,7 @@ function loadSettings() {
     if (password != "") {
         $('#input_feedback_password').attr("placeholder", "(*unchanged*)")
     }
-
+    $('#version_number').text(versionNumber)
     $('#app_settings_modal').modal("show");
 }
 

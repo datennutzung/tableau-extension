@@ -2,6 +2,13 @@
     text-align: center;
 }
 
+.version-number {
+  position: absolute;
+  left: 19px;
+  color: #bbb;
+  font-size: smaller;
+}
+
 div.DTS div.dataTables_scrollBody {
     background: white;
 }
