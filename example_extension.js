@@ -237,7 +237,8 @@ function initializeButtons() {
 function testThings() {
     console.log("Test Things!")
     tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "Sale Map").getDataSourcesAsync().then(datasources =>
-        {dataSource = datasources.find(datasource => datasource.name === "Sample - Superstore");
+        {   console.log(datasources);
+            dataSource = datasources.find(datasource => datasource.name === "Sample - Superstore");
           return dataSource.getUnderlyingDataAsync();
          }).then(dataTable => {
             let field = dataTable.columns.find(column => column.fieldName === "Sub-Category");
