@@ -2,7 +2,7 @@
 
 // Use the jQuery document ready signal to know when everything has been initialized
 $(document).ready(function() {
-    console.log("Using v0.2.6")
+    console.log("Using v0.2.7")
     // Tell Tableau we'd like to initialize our extension
     initializeButtons(); // muss unter das initialize extension
     tableau.extensions.initializeAsync().then(function() {
@@ -237,8 +237,8 @@ function initializeButtons() {
 function testThings() {
     console.log("Test Things!")
     tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "Sale Map").getDataSourcesAsync().then(datasources =>
-        {   console.log(datasources);
-            dataSource = datasources.find(datasource => datasource.name === "Sample - Superstore");
+        {dataSource = datasources.find(datasource => datasource.name === "Sample - Superstore");
+        console.log(dataSource);
           return dataSource.getUnderlyingDataAsync();
          }).then(dataTable => {
             let field = dataTable.columns.find(column => column.fieldName === "Sub-Category");
