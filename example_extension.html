@@ -106,7 +106,7 @@
         </div>
 
         <!-- Settings Menu -->
-        <div class="modal fade" id="app_settings_modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal fade" id="app_settings_modal" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-dialog-scrollable" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -147,10 +147,11 @@
                             </div>
                         </form>
                         <hr>
-                        <div>
+                        <div id="experiment-to-be-removed">
                             <label>Testfunctions</label> <br>
-                            <button id="test_data_button" class="btn btn-warning" data-dismiss="modal">Load Test Data</button>
-                            <button id="show_groups_button" class="btn btn-warning" onclick="$('#groups').show()">Show Groups</button>
+                            <button id="test_data_button"   class="btn btn-warning" data-dismiss="modal">Load Test Data</button>
+                            <button id="show_groups_button" class="btn btn-warning" data-dismiss="modal">Show Groups</button>
+                            <button id="test_things_button" class="btn btn-warning" data-dismiss="modal">Test Things</button>
                         </div>
                     </div>
                     <div class="modal-footer">

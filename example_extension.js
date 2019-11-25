@@ -234,6 +234,12 @@ function initializeButtons() {
     $('#save_settings_button').click(saveSettings);
     $('.toggle-password').click(togglePassword);
     $('#test_data_button').click(testData);
+    $('#show_groups_button').click(function() {$('#groups').show()});
+    $('#test_things_button').click(testThings)
+}
+
+function testThings() {
+    console.log("Test Things!")
 }
 
 function deleteGroupsTableEntry() {
@@ -251,7 +257,7 @@ function createGroupsTableHeaders(group_header_string, sep) {
     }
 }
 
-function createGroupsTableEntry(group_string, sep)  {
+function addGroupsTableEntry(group_string, sep)  {
     let group_array = group_string.split(sep);
     let tbody = $('#groups_table_body')[0];
 }
