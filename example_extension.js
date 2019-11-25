@@ -39,7 +39,7 @@ function showChooseSheetDialog() {
     // Next, we loop through all of these worksheets and add buttons for each one
     worksheets.forEach(function(worksheet) {
         // Declare our new button which contains the sheet name
-        const button = createButton(worksheet.name);
+        const button = `<button type='button' class='btn btn-default btn-block'>${worksheet.name}</button>`;
 
         // Create an event handler for when this button is clicked
         button.click(function() {
@@ -260,6 +260,11 @@ function createGroupsTableHeaders(group_header_string, sep) {
 function addGroupsTableEntry(group_string, sep)  {
     let group_array = group_string.split(sep);
     let tbody = $('#groups_table_body')[0];
+    let row = tbody.insertRow(-1);
+    for(let i = 0; i < group_array.length; i++) {
+        let cell =  row.insertCell(i);
+        cell.innerHTML = group_array[i];
+    }
 }
 
 var fdd_events = {data_step: 1337, data_start: "1970-01-01T00:00:00", data_end: "2999-12-31T23:59:59", ranges: []};
