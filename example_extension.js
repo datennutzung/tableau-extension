@@ -39,7 +39,7 @@ function showChooseSheetDialog() {
     // Next, we loop through all of these worksheets and add buttons for each one
     worksheets.forEach(function(worksheet) {
         // Declare our new button which contains the sheet name
-        const button = "<button type='button' class='btn btn-default btn-block'>"+worksheet.name+"</button>";
+        const button = $("<button type='button' class='btn btn-default btn-block'>"+worksheet.name+"</button>");
 
         // Create an event handler for when this button is clicked
         button.click(function() {
