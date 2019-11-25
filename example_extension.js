@@ -238,8 +238,10 @@ function testThings() {
     console.log("Test Things!")
 }
 
-function deleteGroupsTableEntry() {
-    // TODO    
+function deleteGroupsTableEntry(rowObject) {
+    let index = rowObject.rowIndex-1;
+    let tbody = $('#groups_table_body')[0];
+    tbody.deleteRow(index);
 }
 
 function createGroupsTableHeaders(group_header_string, sep) {
