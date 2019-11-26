@@ -2,6 +2,20 @@
     text-align: center;
 }
 
+/*
+https://stackoverflow.com/questions/924916/is-there-a-way-to-make-a-div-unselectable
+  by https://stackoverflow.com/users/165164/anne-gunn
+*/
+.unselectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
 .version-number {
   position: absolute;
   left: 1.2rem;
@@ -17,12 +31,29 @@ div.DTS div.dataTables_scrollBody {
   float: right;
 }
 
-.toggleable-password {
-  padding-right: 29px;
+.btn-collapse {
+  padding-top: 0px;
+  padding-left: 0px;
+  font-weight: bold;
 }
 
-.btn-collapse {
-  padding-left: 0px;
+.chevron {
+  position: relative;
+  bottom: -5px;
+}
+
+.btn-collapse.collapsed .chevron {
+  transition: all 0.2s ease-out;
+  transform: rotate(0deg);
+}
+
+.btn-collapse .chevron {
+  transition: all 0.2s ease-out;
+  transform: rotate(-180deg);
+}
+
+.toggleable-password {
+  padding-right: 29px;
 }
 
 .toggle-password {
@@ -90,4 +121,6 @@ ul.closeable {
     transform: translate(0%, -50%);
   }
   
-  .btn-close:hover {background: #bbb;}
+  .btn-close:hover {
+    background: #bbb;
+  }

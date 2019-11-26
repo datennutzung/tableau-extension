@@ -1,5 +1,5 @@
 'use strict';
-const versionNumber = "0.2.8"
+const versionNumber = "0.2.9"
 
 // Use the jQuery document ready signal to know when everything has been initialized
 $(document).ready(function() {
@@ -203,11 +203,16 @@ function loadSettings() {
 }
 
 function togglePassword() {
-    var input = $($(this).attr("toggle"));
+    let visible = "visibility";
+    let not_visible = "visibility_off";
+    let input = $($(this).attr("toggle"));
+    let icon = $(this)[0].firstElementChild;
     if (input.attr("type") == "password") {
       input.attr("type", "text");
+      icon.innerText = not_visible;
     } else {
       input.attr("type", "password");
+      icon.innerText = visible;
     }
 }
 
@@ -268,6 +273,8 @@ function createGroupsTableHeaders(group_header_string, sep) {
         let cell =  row.insertCell(i);
         cell.innerHTML = "<b>"+group_header_array[i]+"</b>";
     }
+    let lastCell = row.insertCell(-1);
+    lastCell.innerHTML = "<b>Correct</b>"
 }
 
 function addGroupsTableEntry(group_string, sep)  {
@@ -278,6 +285,16 @@ function addGroupsTableEntry(group_string, sep)  {
         let cell =  row.insertCell(i);
         cell.innerHTML = group_array[i];
     }
+    let rI = row.rowIndex-1;
+    let lastCell = row.insertCell(-1);
+    let button_y = $("<button class='btn btn-success btn-sm'>Y</button>");
+    let button_n = $("<button class='btn btn-danger btn-sm'>N</button>");
+    button_y.click(); //TODO
+    button_n.click();
+    lastCell.append(button_y[0]);
+    lastCell.append(" ");
+    lastCell.append(button_n[0]);
+    return row;
 }
 
 var fdd_events = {data_step: 1337, data_start: "1970-01-01T00:00:00", data_end: "2999-12-31T23:59:59", ranges: []};
