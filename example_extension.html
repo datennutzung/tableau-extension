@@ -118,39 +118,47 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <label>Select Column With DateTime Information:</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <label class="input-group-text" for="select_datetime_column">Column:</label>
-                            </div>
-                            <select class="custom-select" id="select_datetime_column" title="Select DateTime Column"></select>
-                        </div>
-                        <hr>
-                        <label>Select Column with Group Information:</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <label class="input-group-text" for="select_group_column">Column:</label>
-                            </div>
-                            <select class="custom-select" id="select_group_column" title="Select Group ID Column"></select>
-                        </div>
-                        <hr>
-                        <form>
-                            <label>Feedback Server Information</label>
-                            <div class="form-group">
-                                <input type="url" class="form-control" id="input_feedback_server" placeholder="Enter URL of Feedback server" title="Feedback Server URL">
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col">
-                                    <input type="text" class="form-control" id="input_feedback_username" placeholder="Enter username" title="Username"></div>
-                                <div class="form-group col">
-                                    <input type="password" class="form-control toggleable-password" id="input_feedback_password" placeholder="Enter password" title="Password" oninput="this.type='password'">
-                                    <span toggle="#input_feedback_password" class="toggle-password"><i class="material-icons">remove_red_eye</i></span>
+                        <button class="btn btn-link btn-collapse" type="button" data-toggle="collapse" data-target="#datetime_settings">DateTime Settings</button>
+                        <div id="datetime_settings" class="collapse">
+                            <label>Select Column With DateTime Information:</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="select_datetime_column">Column:</label>
                                 </div>
+                                <select class="custom-select" id="select_datetime_column" title="Select DateTime Column"></select>
                             </div>
-                        </form>
+                        </div>
                         <hr>
-                        <div id="experiment-to-be-removed">
-                            <label>Testfunctions</label> <br>
+                        <button class="btn btn-link btn-collapse" type="button" data-toggle="collapse" data-target="#group_settings">Group Settings</button>
+                        <div id="group_settings" class="collapse">
+                            <label>Select Column with Group Information:</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="select_group_column">Column:</label>
+                                </div>
+                                <select class="custom-select" id="select_group_column" title="Select Group ID Column"></select>
+                            </div>
+                        </div>
+                        <hr>
+                        <button class="btn btn-link btn-collapse" type="button" data-toggle="collapse" data-target="#feedback_server_settings">Feedback Server Settings</button>
+                        <div id="feedback_server_settings" class="collapse">
+                            <form>
+                                <div class="form-group">
+                                    <input type="url" class="form-control" id="input_feedback_server" placeholder="Enter URL of Feedback server" title="Feedback Server URL">
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col">
+                                        <input type="text" class="form-control" id="input_feedback_username" placeholder="Enter username" title="Username"></div>
+                                    <div class="form-group col">
+                                        <input type="password" class="form-control toggleable-password" id="input_feedback_password" placeholder="Enter password" title="Password" oninput="this.type='password'">
+                                        <span toggle="#input_feedback_password" class="toggle-password"><i class="material-icons">remove_red_eye</i></span>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <hr>
+                        <button class="btn btn-link btn-collapse" type="button" data-toggle="collapse" data-target="#experimental_settings">Experimental Settings</button>                        
+                        <div id="experimental_settings" class="collapse">
                             <button id="test_data_button"   class="btn btn-warning" data-dismiss="modal">Load Test Data</button>
                             <button id="show_groups_button" class="btn btn-warning" data-dismiss="modal">Show Groups</button>
                             <button id="test_things_button" class="btn btn-warning" data-dismiss="modal">Test Things</button>

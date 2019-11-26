@@ -21,6 +21,10 @@ div.DTS div.dataTables_scrollBody {
   padding-right: 29px;
 }
 
+.btn-collapse {
+  padding-left: 0px;
+}
+
 .toggle-password {
   float: right;
   margin-top: -30px;
