@@ -127,7 +127,40 @@
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="select_datetime_column">Column:</label>
                                 </div>
-                                <select class="custom-select" id="select_datetime_column" title="Select DateTime Column"></select>
+                                <select class="custom-select" id="select_datetime_column" title="Select the DateTime Column"></select>
+                            </div>
+                            <br>
+                            <label>DateTime Format Settings:</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="input_date_sep">Date Seperator:</label>
+                                </div>
+                                <input type="text" class="form-control text-monospace" id="input_date_sep" title="Input the Date Seperator" placeholder="Date Seperator">
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="input_date_time_sep">Date-Time Seperator:</label>
+                                </div>
+                                <input type="text" class="form-control text-monospace" id="input_date_time_sep" title="Input the Date-Time Seperator" placeholder="Date-Time Seperator"> 
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="select_date_format">Date Format:</label>
+                                </div>
+                                <select class="custom-select" id="select_date_format" title="Select the Date Format">
+                                    <option value="dmy" selected>Day-Month-Year</option>
+                                    <option value="ymd">Year-Month-Day</option>
+                                    <option value="mdy">Month-Day-Year</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="select_time_format">Time Format:</label>
+                                </div>
+                                <select class="custom-select" id="select_time_format" title="Select the Time Format">
+                                    <option value="24" selected>24h</option>
+                                    <option value="12">12h</option>
+                                </select>
                             </div>
                         </div>
                         <hr>
@@ -140,7 +173,7 @@
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="select_group_column">Column:</label>
                                 </div>
-                                <select class="custom-select" id="select_group_column" title="Select Group ID Column"></select>
+                                <select class="custom-select" id="select_group_column" title="Select the Group ID Column"></select>
                             </div>
                         </div>
                         <hr>
@@ -150,14 +183,14 @@
                         <div id="feedback_server_settings" class="collapse">
                             <form>
                                 <div class="form-group">
-                                    <input type="url" class="form-control" id="input_feedback_server" placeholder="Enter URL of Feedback server" title="Feedback Server URL">
+                                    <input type="url" class="form-control" id="input_feedback_server" placeholder="Feedback Server URL" title="Enter the URL of the Feedback Server">
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col">
-                                        <input type="text" class="form-control" id="input_feedback_username" placeholder="Enter username" title="Username"></div>
+                                        <input type="text" class="form-control" id="input_feedback_username" placeholder="Username" title="Enter your Username"></div>
                                     <div class="form-group col">
-                                        <input type="password" class="form-control toggleable-password" id="input_feedback_password" placeholder="Enter password" title="Password" oninput="this.type='password'">
-                                        <span toggle="#input_feedback_password" class="toggle-password unselectable"><i class="material-icons">visibility</i></span>
+                                        <input type="password" class="form-control toggleable-password" id="input_feedback_password" placeholder="Password" title="Enter your Password">
+                                        <span toggle="#input_feedback_password" class="toggle-password unselectable" title="Toggle the visibility of the password"><i class="material-icons">visibility</i></span>
                                     </div>
                                 </div>
                             </form>

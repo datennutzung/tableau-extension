@@ -160,8 +160,17 @@ function populateDataTable(p_data, p_columns) {
     }
 }
 
+// datetime settimgs
 var dateColumn = 0;
+var date_seperator = ".";
+var date_time_seperator = " ";
+var date_form = "dmy";
+var time_form = 24;
+
+//group settings
 var groupID_string = "";
+
+// feedback settings
 var feedback_url = "";
 var username = "";
 var password = "";
@@ -191,7 +200,16 @@ function loadSettings() {
         selectDatetimeColumn.prop("disabled", true);
         selectGroupColumn.prop("disabled", true);
     }
+    //datetime settings
+    $('#input_date_sep').val(date_seperator);
+    $('#input_date_time_sep').val(date_time_seperator);
+    $('#select_date_format').val(date_form);
+    $('#select_time_format').val(time_form);
 
+    //group settings
+    
+
+    //feedback settings
     $('#input_feedback_server').val(feedback_url);
     $('#input_feedback_username').val(username);
     $('#input_feedback_password').val("");
@@ -202,23 +220,18 @@ function loadSettings() {
     $('#app_settings_modal').modal("show");
 }
 
-function togglePassword() {
-    let visible = "visibility";
-    let not_visible = "visibility_off";
-    let input = $($(this).attr("toggle"));
-    let icon = $(this)[0].firstElementChild;
-    if (input.attr("type") == "password") {
-      input.attr("type", "text");
-      icon.innerText = not_visible;
-    } else {
-      input.attr("type", "password");
-      icon.innerText = visible;
-    }
-}
-
 function saveSettings() {
-    dateColumn = $("#select_datetime_column :selected").val();
+    //datetime settings
+    dateColumn = $("#select_datetime_column").val();
+    date_seperator =  $('#input_date_sep').val();
+    date_time_seperator = $('#input_date_time_sep').val();
+    date_form = $("#select_date_format").val();
+    time_form = $("#select_time_format").val();
+
+    //group settings
     groupID_string = $("#select_group_column :selected").text();
+
+    //feedback settings
     feedback_url = $('#input_feedback_server').val();
     username = $('#input_feedback_username').val();
     password = $('#input_feedback_password').val()==""?password:$('#input_feedback_password').val();
@@ -226,36 +239,38 @@ function saveSettings() {
     $('#app_settings_modal').modal("hide");
 }
 
+function togglePassword() {
+    let visible = "visibility";
+    let not_visible = "visibility_off";
+    let input = $($(this).attr("toggle"));
+    let icon = $(this)[0].firstElementChild;
+    if (input.attr("type") == "password") {
+        input.attr("type", "text");
+        icon.innerText = not_visible;
+    } else {
+        input.attr("type", "password");
+        icon.innerText = visible;
+    }
+}
+
 function initializeButtons() {
     $('#show_choose_sheet_button').click(showChooseSheetDialog);
     $('#reset_filters_button').click(resetFilters);
-    $('#data_fault_button').click(function() {markSelectedAsFault(true, dateColumn)});
-    $('#data_correct_button').click(function() {markSelectedAsFault(false, dateColumn)});
-    $('#ranges_submit_button').click(submitRanges);
+
     $('#app_settings_button').click(loadSettings);
     $('#save_settings_button').click(saveSettings);
     $('.toggle-password').click(togglePassword);
+
+    $('#data_fault_button').click(function() {markSelectedAsFault(true)});
+    $('#data_correct_button').click(function() {markSelectedAsFault(false)});
+    $('#ranges_submit_button').click(submitRanges);
+
     $('#test_data_button').click(testData);
     $('#show_groups_button').click(function() {$('#groups').show()});
     $('#test_things_button').click(testThings)
 }
 
-function testThings() {
-    console.log("Test Things!")
-    tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "Sale Map").getDataSourcesAsync().then(datasources =>
-        {dataSource = datasources.find(datasource => datasource.name === "Sample - Superstore");
-        console.log(dataSource);
-          return dataSource.getUnderlyingDataAsync();
-         }).then(dataTable => {
-            let field = dataTable.columns.find(column => column.fieldName === "Sub-Category");
-            let list = [];
-            for (let row of dataTable.data) {
-                list.push(row[field.index].value);
-            }
-            let values = list.filter((el, i, arr) => arr.indexOf(el) === i);
-            console.log(values)
-        });
-        
+function testThings() { 
 }
 
 function deleteGroupsTableEntry(rowObject) {
@@ -323,7 +338,7 @@ function removeRangeEntry(object) {
     }
 }
 
-function markSelectedAsFault(fault, dateColumn = 0) {
+function markSelectedAsFault(fault) {
     // get the list of marks as selected_marks
     let dates = data_table.column(dateColumn).data().toArray();
     let last = new Date("1970-01-01T00:00:00");
@@ -338,11 +353,25 @@ function markSelectedAsFault(fault, dateColumn = 0) {
     addRangeEntry(length-1);
 }
 
-function formatDateTime(datetime="", date_sep=".", date_time_sep=" ", dateFormat="dmy") {
+function formatDateTime(datetime="", date_sep=".", date_time_sep=" ", dateFormat="dmy", time_format = 24) {
     let date_time = datetime.split(date_time_sep);
-    let date_str = date_time[0];
-    let time_str = date_time[1];
+    let date_str = date_time.shift();
     let date_arr = date_str.split(date_sep);
+
+    let time_str = date_time.join("");
+    if (time_format == 12) {
+        if (time_str.endsWith("PM")) {
+            time_str = time_str.slice(0, -2);
+            time_str.trim();
+            let time_arr = time_str.split(":");
+            time_arr[0] = parseInt(time_arr[0])+12;
+            time_str = time_arr.join(":");
+        } else if (time_str.endsWith("AM")){
+            time_str = time_str.slice(0, -2);
+            time_str.trim();
+        }
+    }
+
     switch (dateFormat) { 
         case "mdy":
             var month = date_arr[0];
@@ -373,6 +402,7 @@ function submitRanges() {
         }
     }
     if (feedback_url == "") {
+        $("#feedback_server_settings").collapse('show');
         $('#app_settings_modal').modal("show");
     } else {
         // send fdd_events to feedback server
@@ -388,7 +418,6 @@ function testData() {
                   ["01.04.2019 12:11:00", "0", "7"]];
     populateDataTable(t_data, t_columns);
 }
-
 
 // Save the columns we've applied filters to so we can reset them
 var filteredColumns = [];
