@@ -344,7 +344,7 @@ function markSelectedAsFault(fault) {
     let last = new Date("1970-01-01T00:00:00");
     let first = new Date("2999-12-31T23:59:59");
     for (let i = 0; i<dates.length; i++) {
-        let date = formatDateTime(dates[i]);
+        let date = formatDateTime(dates[i], date_seperator, date_time_seperator, date_form, time_form);
         last = date>last?date:last;
         first = date<first?date:first;
     }
