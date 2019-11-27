@@ -359,6 +359,9 @@ function formatDateTime(datetime="", date_sep=".", date_time_sep=" ", dateFormat
     let date_arr = date_str.split(date_sep);
 
     let time_str = date_time.join("");
+    if (time_str == "") {
+        time_str = "00:00:00"
+    }
     if (time_format == 12) {
         if (time_str.endsWith("PM")) {
             time_str = time_str.slice(0, -2);
