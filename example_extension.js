@@ -361,17 +361,18 @@ function formatDateTime(datetime="", date_sep=".", date_time_sep=" ", dateFormat
     let time_str = date_time.join("");
     if (time_str == "") {
         time_str = "00:00:00"
-    }
-    if (time_format == 12) {
-        if (time_str.endsWith("PM")) {
-            time_str = time_str.slice(0, -2);
-            time_str.trim();
-            let time_arr = time_str.split(":");
-            time_arr[0] = parseInt(time_arr[0])+12;
-            time_str = time_arr.join(":");
-        } else if (time_str.endsWith("AM")){
-            time_str = time_str.slice(0, -2);
-            time_str.trim();
+    } else {
+        if (time_format == 12) {
+            if (time_str.endsWith("PM")) {
+                time_str = time_str.slice(0, -2);
+                time_str.trim();
+                let time_arr = time_str.split(":");
+                time_arr[0] = parseInt(time_arr[0])+12;
+                time_str = time_arr.join(":");
+            } else if (time_str.endsWith("AM")){
+                time_str = time_str.slice(0, -2);
+                time_str.trim();
+            }
         }
     }
 
