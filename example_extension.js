@@ -1,5 +1,5 @@
 'use strict';
-const versionNumber = "0.2.9"
+const versionNumber = "0.3.0"
 
 // Use the jQuery document ready signal to know when everything has been initialized
 $(document).ready(function() {
@@ -359,6 +359,7 @@ function formatDateTime(datetime="", date_sep=".", date_time_sep=" ", dateFormat
     let date_arr = date_str.split(date_sep);
 
     let time_str = date_time.join("");
+    time_str.trim();
     if (time_str == "") {
         time_str = "00:00:00"
     } else {
