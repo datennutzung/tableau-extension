@@ -41,38 +41,8 @@
                 </h4>
                 <div id="groups" style="display: none;">
                     <table class="table table-hover">
-                        <thead id="groups_table_head">
-                            <tr>
-                                <th>GroupID</th>
-                                <th>Start</th>
-                                <th>End</th>
-                                <th>Sensors</th>
-                                <th>Correct</th>
-                            </tr>
-                        </thead>
-                        <tbody id="groups_table_body">
-                            </tr>
-                            <tr>
-                                <td>b231</td>
-                                <td>2019-11-14T05:55:00</td>
-                                <td>2019-11-14T06:00:00</td>
-                                <td>S1, S2, S3, S5</td>
-                                <td>
-                                    <button class="btn btn-success btn-sm">Y</button>
-                                    <button class="btn btn-danger btn-sm">N</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>c321</td>
-                                <td>2019-11-14T06:20:00</td>
-                                <td>2019-11-14T07:05:00</td>
-                                <td>S1, S3</td>
-                                <td>
-                                    <button class="btn btn-success btn-sm">Y</button>
-                                    <button class="btn btn-danger btn-sm">N</button>
-                                </td>
-                            </tr>
-                        </tbody>
+                        <thead id="groups_table_head"></thead>
+                        <tbody id="groups_table_body"></tbody>
                     </table>
                 </div>
                 <div id="data_table_wrapper"></div>
@@ -112,7 +82,11 @@
             <div class="modal-dialog modal-dialog-scrollable" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="app_settings_modal_title">Settings</h5>
+                        <h5 class="modal-title" id="app_settings_modal_title">Settings
+                            <button type="button" class="btn btn-link" id="settings_reload_button" title="Reload Settings">
+                                <i class="material-icons">cached</i>
+                            </button>
+                        </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -215,7 +189,9 @@
                     </div>
                     <div class="modal-footer">
                         <label class="version-number">version: <span id="version_number"></span></label>
-                        <button type="button" class="btn btn-primary" id="save_settings_button">Save & Exit</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-info" id="save_settings_button">Save</button>
+                        <button type="button" class="btn btn-primary" id="save_exit_settings_button" data-dismiss="modal">Save & Exit</button>
                     </div>
                 </div>
             </div>

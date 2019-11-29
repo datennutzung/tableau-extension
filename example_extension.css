@@ -29,6 +29,10 @@ div.DTS div.dataTables_scrollBody {
   float: right;
 }
 
+#settings_reload_button {
+  color: #212529;
+}
+
 #app_settings_modal .input-group {
   padding-bottom: 5px;
 }

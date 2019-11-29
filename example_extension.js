@@ -3,7 +3,6 @@ const versionNumber = "0.3.1"
 
 // Use the jQuery document ready signal to know when everything has been initialized
 $(document).ready(function() {
-    console.log("Using v"+versionNumber);
     // Tell Tableau we'd like to initialize our extension
     initializeButtons(); // muss unter das initialize extension
     tableau.extensions.initializeAsync().then(function() {
@@ -252,8 +251,6 @@ function saveSettings() {
     feedback_url = $('#input_feedback_server').val();
     username = $('#input_feedback_username').val();
     password = $('#input_feedback_password').val()==""?password:$('#input_feedback_password').val();
-
-    $('#app_settings_modal').modal("hide");
 }
 
 function togglePassword() {
@@ -275,7 +272,9 @@ function initializeButtons() {
     $('#reset_filters_button').click(resetFilters);
 
     $('#app_settings_button').click(loadSettings);
+    $('#settings_reload_button').click(loadSettings);
     $('#save_settings_button').click(saveSettings);
+    $('#save_exit_settings_button').click(saveSettings);
     $('.toggle-password').click(togglePassword);
 
     $('#data_fault_button').click(function() {markSelectedAsFault(true)});
