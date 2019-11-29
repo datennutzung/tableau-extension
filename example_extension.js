@@ -288,6 +288,7 @@ function initializeButtons() {
 
 function testThings() {
     getAllGroups(group_column_index);
+    createGroupsTableHeaders(group_column_name, group_seperator);
     let group_rows = [];
     for (let i = 0; i < groups_array.length; i++) {
         const element = groups_array[i];
