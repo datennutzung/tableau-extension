@@ -1,9 +1,9 @@
 'use strict';
-const versionNumber = "0.3.0"
+const versionNumber = "0.3.1"
 
 // Use the jQuery document ready signal to know when everything has been initialized
 $(document).ready(function() {
-    console.log("Using v"+versionNumber)
+    console.log("Using v"+versionNumber);
     // Tell Tableau we'd like to initialize our extension
     initializeButtons(); // muss unter das initialize extension
     tableau.extensions.initializeAsync().then(function() {
@@ -160,15 +160,30 @@ function populateDataTable(p_data, p_columns) {
     }
 }
 
+var groups_array = [];
+function getAllGroups(p_group_column_index) {
+    let group_column = data_table.column(p_group_column_index).data().toArray();
+    for (let i = 0; i < group_column.length; i++) {
+        const element = group_column[i];
+        if (element == null || element == "") {
+            continue;
+        } else if (!groups_array.includes(element)) {
+            groups_array.push(element);
+        }
+    }
+}
+
 // datetime settimgs
-var dateColumn = 0;
+var date_column_index = 0;
 var date_seperator = ".";
 var date_time_seperator = " ";
 var date_form = "dmy";
 var time_form = 24;
 
 //group settings
-var groupID_string = "";
+var group_column_name = "";
+var group_column_index = 0;
+var group_seperator = "_";
 
 // feedback settings
 var feedback_url = "";
@@ -177,28 +192,28 @@ var password = "";
 
 function loadSettings() {
     // select datetime column and groupId
-    let selectDatetimeColumn = $('#select_datetime_column');
-    let selectGroupColumn = $('#select_group_column');
-    selectDatetimeColumn.empty();
-    selectGroupColumn.empty();
+    let select_datetime_column = $('#select_datetime_column');
+    let select_group_column = $('#select_group_column');
+    select_datetime_column.empty();
+    select_group_column.empty();
     if (columns !== undefined) {
-        selectDatetimeColumn.prop("disabled", false);
-        selectGroupColumn.prop("disabled", false);
+        select_datetime_column.prop("disabled", false);
+        select_group_column.prop("disabled", false);
         for (let i = 0; i < columns.length; i++) {
-            if (i == dateColumn) {
-                selectDatetimeColumn.append("<option value="+i+" selected>"+columns[i].title+"</option>");
+            if (i == date_column_index) {
+                select_datetime_column.append("<option value="+i+" selected>"+columns[i].title+"</option>");
             } else {
-                selectDatetimeColumn.append("<option value="+i+">"+columns[i].title+"</option>");
+                select_datetime_column.append("<option value="+i+">"+columns[i].title+"</option>");
             }
-            if (columns[i].title == groupID_string) {
-                selectGroupColumn.append("<option value="+i+" selected>"+columns[i].title+"</option>");
+            if (i == group_column_index) {
+                select_group_column.append("<option value="+i+" selected>"+columns[i].title+"</option>");
             } else {
-                selectGroupColumn.append("<option value="+i+">"+columns[i].title+"</option>");
+                select_group_column.append("<option value="+i+">"+columns[i].title+"</option>");
             }
         }
     } else {
-        selectDatetimeColumn.prop("disabled", true);
-        selectGroupColumn.prop("disabled", true);
+        select_datetime_column.prop("disabled", true);
+        select_group_column.prop("disabled", true);
     }
     //datetime settings
     $('#input_date_sep').val(date_seperator);
@@ -207,29 +222,31 @@ function loadSettings() {
     $('#select_time_format').val(time_form);
 
     //group settings
-    
+    $('#input_group_sep').val(group_seperator);
 
     //feedback settings
     $('#input_feedback_server').val(feedback_url);
     $('#input_feedback_username').val(username);
     $('#input_feedback_password').val("");
     if (password != "") {
-        $('#input_feedback_password').attr("placeholder", "(*unchanged*)")
+        $('#input_feedback_password').attr("placeholder", "(*unchanged*)");
     }
-    $('#version_number').text(versionNumber)
+    $('#version_number').text(versionNumber);
     $('#app_settings_modal').modal("show");
 }
 
 function saveSettings() {
     //datetime settings
-    dateColumn = $("#select_datetime_column").val();
+    date_column_index = $("#select_datetime_column").val();
     date_seperator =  $('#input_date_sep').val();
     date_time_seperator = $('#input_date_time_sep').val();
     date_form = $("#select_date_format").val();
     time_form = $("#select_time_format").val();
 
     //group settings
-    groupID_string = $("#select_group_column :selected").text();
+    group_column_name = $("#select_group_column :selected").text();
+    group_column_index = $("#select_group_column").val();
+    group_seperator = $('#input_group_sep').val();
 
     //feedback settings
     feedback_url = $('#input_feedback_server').val();
@@ -270,7 +287,13 @@ function initializeButtons() {
     $('#test_things_button').click(testThings)
 }
 
-function testThings() { 
+function testThings() {
+    getAllGroups(group_column_index);
+    let group_rows = [];
+    for (let i = 0; i < groups_array.length; i++) {
+        const element = groups_array[i];
+        group_rows.push(addGroupsTableEntry(element, group_seperator));
+    }
 }
 
 function deleteGroupsTableEntry(rowObject) {
@@ -340,7 +363,7 @@ function removeRangeEntry(object) {
 
 function markSelectedAsFault(fault) {
     // get the list of marks as selected_marks
-    let dates = data_table.column(dateColumn).data().toArray();
+    let dates = data_table.column(date_column_index).data().toArray();
     let last = new Date("1970-01-01T00:00:00");
     let first = new Date("2999-12-31T23:59:59");
     for (let i = 0; i<dates.length; i++) {
@@ -417,10 +440,10 @@ function submitRanges() {
 }
 
 function testData() {
-    let t_columns = [{title:"Date Time"}, {title:"Fault"}, {title:"pH distillate"}];
-    let t_data = [["07.04.2019 22:43:15", "1", "18"],
-                  ["05.04.2019 00:13:11", "2", "3"],
-                  ["01.04.2019 12:11:00", "0", "7"]];
+    let t_columns = [{title:"Date Time"}, {title:"Fault"}, {title:"pH distillate"}, {title:"GroupID_start_end_sensors"}];
+    let t_data = [["01.04.2019 22:43:15", "1", "18", "a1_2019-04-01T22:43:15_2019-05-04T00:13:11_s1,s2"],
+                  ["05.04.2019 00:13:11", "1", "3", "a1_2019-04-01T22:43:15_2019-05-04T00:13:11_s1,s2"],
+                  ["07.04.2019 12:11:00", "0", "7", ""]];
     populateDataTable(t_data, t_columns);
 }
 

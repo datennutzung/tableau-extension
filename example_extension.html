@@ -175,6 +175,14 @@
                                 </div>
                                 <select class="custom-select" id="select_group_column" title="Select the Group ID Column"></select>
                             </div>
+                            <br>
+                            <label>Group Settings:</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="input_group_sep">Group Seperator:</label>
+                                </div>
+                                <input type="text" class="form-control text-monospace" id="input_group_sep" title="Input the Group Seperator" placeholder="Group Seperator">
+                            </div>
                         </div>
                         <hr>
                         <button class="btn btn-link btn-collapse collapsed" type="button" data-toggle="collapse" data-target="#feedback_server_settings">
@@ -200,9 +208,9 @@
                             <i class="chevron material-icons">expand_more</i> Experimental Settings
                         </button>                        
                         <div id="experimental_settings" class="collapse">
-                            <button id="test_data_button"   class="btn btn-warning" data-dismiss="modal">Load Test Data</button>
-                            <button id="show_groups_button" class="btn btn-warning" data-dismiss="modal">Show Groups</button>
-                            <button id="test_things_button" class="btn btn-warning" data-dismiss="modal">Test Things</button>
+                            <button id="test_data_button"   class="btn btn-warning">Load Test Data</button>
+                            <button id="show_groups_button" class="btn btn-warning">Show Groups</button>
+                            <button id="test_things_button" class="btn btn-warning">Test Things</button>
                         </div>
                     </div>
                     <div class="modal-footer">
