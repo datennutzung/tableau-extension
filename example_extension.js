@@ -1,5 +1,5 @@
 'use strict';
-const versionNumber = "0.3.1"
+const versionNumber = "0.3.2"
 
 // Use the jQuery document ready signal to know when everything has been initialized
 $(document).ready(function() {
@@ -172,8 +172,9 @@ function getAllGroups(p_group_column_index) {
     }
 }
 
-// datetime settimgs
+// datetime settings
 var date_column_index = 0;
+var date_column_name = "";
 var date_seperator = ".";
 var date_time_seperator = " ";
 var date_form = "dmy";
@@ -183,6 +184,8 @@ var time_form = 24;
 var group_column_name = "";
 var group_column_index = 0;
 var group_seperator = "_";
+var group_start_index = 0;
+var group_end_index = 0;
 
 // feedback settings
 var feedback_url = "";
@@ -191,29 +194,34 @@ var password = "";
 
 function loadSettings() {
     // select datetime column and groupId
-    let select_datetime_column = $('#select_datetime_column');
-    let select_group_column = $('#select_group_column');
-    select_datetime_column.empty();
-    select_group_column.empty();
+    $('#select_datetime_column').empty();
+    $('#select_group_column').empty();
+    $("#select_group_start").empty();
+    $("#select_group_end").empty();
     if (columns !== undefined) {
-        select_datetime_column.prop("disabled", false);
-        select_group_column.prop("disabled", false);
+        $('#select_datetime_column').prop("disabled", false);
+        $('#select_group_column').prop("disabled", false);
+        $("#select_group_start").prop("disabled", false);
+        $("#select_group_end").prop("disabled", false);
         for (let i = 0; i < columns.length; i++) {
             if (i == date_column_index) {
-                select_datetime_column.append("<option value="+i+" selected>"+columns[i].title+"</option>");
+                $('#select_datetime_column').append("<option value="+i+" selected>"+columns[i].title+"</option>");
             } else {
-                select_datetime_column.append("<option value="+i+">"+columns[i].title+"</option>");
+                $('#select_datetime_column').append("<option value="+i+">"+columns[i].title+"</option>");
             }
             if (i == group_column_index) {
-                select_group_column.append("<option value="+i+" selected>"+columns[i].title+"</option>");
+                $('#select_group_column').append("<option value="+i+" selected>"+columns[i].title+"</option>");
             } else {
-                select_group_column.append("<option value="+i+">"+columns[i].title+"</option>");
+                $('#select_group_column').append("<option value="+i+">"+columns[i].title+"</option>");
             }
         }
     } else {
-        select_datetime_column.prop("disabled", true);
-        select_group_column.prop("disabled", true);
+        $('#select_datetime_column').prop("disabled", true);
+        $('#select_group_column').prop("disabled", true);
+        $("#select_group_start").prop("disabled", true);
+        $("#select_group_end").prop("disabled", true);
     }
+
     //datetime settings
     $('#input_date_sep').val(date_seperator);
     $('#input_date_time_sep').val(date_time_seperator);
@@ -222,6 +230,20 @@ function loadSettings() {
 
     //group settings
     $('#input_group_sep').val(group_seperator);
+    let group_column_array = group_column_name.split(group_seperator);
+    for (let i = 0; i < group_column_array.length; i++) {
+        const column_name = group_column_array[i];
+        if (i == group_start_index) {
+            $("#select_group_start").append("<option value="+i+" selected>"+column_name+"</option>");
+        } else {
+            $("#select_group_start").append("<option value="+i+">"+column_name+"</option>");
+        }
+        if (i == group_end_index) {
+            $("#select_group_end").append("<option value="+i+" selected>"+column_name+"</option>");
+        } else {
+            $("#select_group_end").append("<option value="+i+">"+column_name+"</option>");
+        }
+    }
 
     //feedback settings
     $('#input_feedback_server').val(feedback_url);
@@ -237,6 +259,7 @@ function loadSettings() {
 function saveSettings() {
     //datetime settings
     date_column_index = $("#select_datetime_column").val();
+    date_column_name = $("#select_datetime_column :selected").text();
     date_seperator =  $('#input_date_sep').val();
     date_time_seperator = $('#input_date_time_sep').val();
     date_form = $("#select_date_format").val();
@@ -246,6 +269,8 @@ function saveSettings() {
     group_column_name = $("#select_group_column :selected").text();
     group_column_index = $("#select_group_column").val();
     group_seperator = $('#input_group_sep').val();
+    group_start_index = $("#select_group_start").val();
+    group_end_index = $("#select_group_end").val();
 
     //feedback settings
     feedback_url = $('#input_feedback_server').val();
@@ -273,8 +298,8 @@ function initializeButtons() {
 
     $('#app_settings_button').click(loadSettings);
     $('#settings_reload_button').click(loadSettings);
-    $('#save_settings_button').click(saveSettings);
-    $('#save_exit_settings_button').click(saveSettings);
+    $('#apply_settings_button').click(function() {saveSettings(); loadSettings();});
+    $('#ok_settings_button').click(saveSettings);
     $('.toggle-password').click(togglePassword);
 
     $('#data_fault_button').click(function() {markSelectedAsFault(true)});
@@ -323,16 +348,32 @@ function addGroupsTableEntry(group_string, sep)  {
         let cell =  row.insertCell(i);
         cell.innerHTML = group_array[i];
     }
-    let rI = row.rowIndex-1;
+    // let rI = row.rowIndex-1;
     let lastCell = row.insertCell(-1);
-    let button_y = $("<button class='btn btn-success btn-sm'>Y</button>");
-    let button_n = $("<button class='btn btn-danger btn-sm'>N</button>");
-    button_y.click(); //TODO
-    button_n.click();
-    lastCell.append(button_y[0]);
+    let button_yes = $("<button class='btn btn-success btn-sm'>Yes</button>");
+    let button_no = $("<button class='btn btn-danger btn-sm'>No</button>");
+    let button_show_range = $("<button class='btn btn-secondary btn-sm'>Show</button>")
+
+    let start = row.cells[group_start_index].innerText;
+    let end = row.cells[group_start_index].innerText;
+    start = new Date(start);
+    end = new Date(end);
+    button_yes.click(function() {markRangeAsFault(start, end, false)});
+    button_no.click(function() {markRangeAsFault(start, end, true)});
+    button_show_range.click(function() {showRange(start, end)})
+
+    lastCell.append(button_yes[0]);
     lastCell.append(" ");
-    lastCell.append(button_n[0]);
+    lastCell.append(button_no[0]);
+    lastCell.append(" ");
+    lastCell.append(button_show_range[0]);
     return row;
+}
+
+function showRange(start_date, end_date) {
+    const worksheet = getSelectedSheet(tableau.extensions.settings.get('sheet'));
+    worksheet.applyFilterAsync(date_column_name, {min: start_date, max: end_date});
+    filteredColumns.push(date_column_name);
 }
 
 var fdd_events = {data_step: 1337, data_start: "1970-01-01T00:00:00", data_end: "2999-12-31T23:59:59", ranges: []};
@@ -361,6 +402,12 @@ function removeRangeEntry(object) {
     }
 }
 
+function markRangeAsFault(start_time, end_time, fault) {
+    let range = {start: start_time, end: end_time, is_fault: fault};
+    let length = fdd_event_ranges.push(range);
+    addRangeEntry(length-1);
+}
+
 function markSelectedAsFault(fault) {
     // get the list of marks as selected_marks
     let dates = data_table.column(date_column_index).data().toArray();
@@ -371,16 +418,13 @@ function markSelectedAsFault(fault) {
         last = date>last?date:last;
         first = date<first?date:first;
     }
-    let range = {start: first, end: last, is_fault: fault};
-    let length = fdd_event_ranges.push(range);
-    addRangeEntry(length-1);
+    markRangeAsFault(first, last, fault);
 }
 
 function formatDateTime(datetime="", date_sep=".", date_time_sep=" ", dateFormat="dmy", time_format = 24) {
     let date_time = datetime.split(date_time_sep);
     let date_str = date_time.shift();
     let date_arr = date_str.split(date_sep);
-
     let time_str = date_time.join("");
     time_str.trim();
     if (time_str == "") {
@@ -445,6 +489,23 @@ function testData() {
                   ["05.04.2019 00:13:11", "1", "3", "a1_2019-04-01T22:43:15_2019-05-04T00:13:11_s1,s2"],
                   ["07.04.2019 12:11:00", "0", "7", ""]];
     populateDataTable(t_data, t_columns);
+
+    date_column_index = 0;
+    date_seperator = ".";
+    date_time_seperator = " ";
+    date_form = "dmy";
+    time_form = 24;
+
+    group_column_name = "GroupID_start_end_sensors";
+    group_column_index = 3;
+    group_seperator = "_";
+    group_start_index = 1;
+    group_end_index = 2;
+
+    feedback_url = "example.com/feedback";
+    username = "username";
+    password = "password";
+    loadSettings();
 }
 
 // Save the columns we've applied filters to so we can reset them

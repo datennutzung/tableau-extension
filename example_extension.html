@@ -157,6 +157,18 @@
                                 </div>
                                 <input type="text" class="form-control text-monospace" id="input_group_sep" title="Input the Group Seperator" placeholder="Group Seperator">
                             </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="select_group_start">Start:</label>
+                                </div>
+                                <select class="custom-select" id="select_group_start" title="Select the Start Column"></select>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="select_group_end">End:</label>
+                                </div>
+                                <select class="custom-select" id="select_group_end" title="Select the End Column"></select>
+                            </div>
                         </div>
                         <hr>
                         <button class="btn btn-link btn-collapse collapsed" type="button" data-toggle="collapse" data-target="#feedback_server_settings">
@@ -189,9 +201,9 @@
                     </div>
                     <div class="modal-footer">
                         <label class="version-number">version: <span id="version_number"></span></label>
-                        <button type="button" class="btn btn-primary" id="save_settings_button">Save</button>
-                        <button type="button" class="btn btn-info" id="save_exit_settings_button" data-dismiss="modal">Save & Exit</button>
+                        <button type="button" class="btn btn-primary" id="ok_settings_button" data-dismiss="modal">Ok</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-info" id="apply_settings_button">Apply</button>
                     </div>
                 </div>
             </div>
