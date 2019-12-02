@@ -357,7 +357,7 @@ function addGroupsTableEntry(group_string, sep)  {
     let button_show_range = $("<button class='btn btn-secondary btn-sm'>Show</button>")
 
     let start = row.cells[group_start_index].innerText;
-    let end = row.cells[group_start_index].innerText;
+    let end = row.cells[group_end_index].innerText;
     start = new Date(start);
     end = new Date(end);
     button_yes.click(function() {markRangeAsFault(start, end, false)});
