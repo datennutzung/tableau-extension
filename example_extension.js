@@ -1,5 +1,5 @@
 'use strict';
-const versionNumber = "0.3.2"
+const versionNumber = "0.3.3"
 
 // Use the jQuery document ready signal to know when everything has been initialized
 $(document).ready(function() {
@@ -374,7 +374,7 @@ function addGroupsTableEntry(group_string, sep)  {
 
 function showRange(start_date, end_date) {
     const worksheet = getSelectedSheet(tableau.extensions.settings.get('sheet'));
-    worksheet.applyFilterAsync(date_column_name, {min: start_date, max: end_date});
+    worksheet.applyRangeFilterAsync(date_column_name, {min: start_date, max: end_date});
     filteredColumns.push(date_column_name);
 }
 
