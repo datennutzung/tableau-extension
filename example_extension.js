@@ -164,12 +164,13 @@ function getAllGroups(p_group_column_index) {
     let group_column = data_table.column(p_group_column_index).data().toArray();
     for (let i = 0; i < group_column.length; i++) {
         const element = group_column[i];
-        if (element == null || element == "") {
+        if (element == null || element == "" || element == "%null%") {
             continue;
         } else if (!groups_array.includes(element)) {
             groups_array.push(element);
         }
     }
+    return groups_array;
 }
 
 // datetime settings
@@ -319,6 +320,7 @@ function testThings() {
         const element = groups_array[i];
         group_rows.push(addGroupsTableEntry(element, group_seperator));
     }
+    $('#groups').show()
 }
 
 function deleteGroupsTableEntry(rowObject) {
