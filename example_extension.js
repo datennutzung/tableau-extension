@@ -1,5 +1,5 @@
 'use strict';
-const versionNumber = "0.3.3"
+const versionNumber = "0.3.5"
 
 // Use the jQuery document ready signal to know when everything has been initialized
 $(document).ready(function() {
@@ -173,27 +173,32 @@ function getAllGroups(p_group_column_index) {
     return groups_array;
 }
 
-// datetime settings
-var date_column_index = 0;
-var date_column_name = "";
-var date_seperator = ".";
-var date_time_seperator = " ";
-var date_form = "dmy";
-var time_form = 24;
-
-//group settings
-var group_column_name = "";
-var group_column_index = 0;
-var group_seperator = "_";
-var group_start_index = 0;
-var group_end_index = 0;
-
-// feedback settings
-var feedback_url = "";
-var username = "";
-var password = "";
+var settings = {
+    date_column_index: 0,
+    date_column_name: "",
+    date_seperator: ".",
+    date_time_seperator: " ",
+    date_form: "dmy",
+    time_form: 24,
+    group_column_name: "",
+    group_column_index: 0,
+    group_seperator: "#",
+    group_start_index: 0,
+    group_end_index: 0,
+    feedback_url: "",
+    username: "",
+    password: ""
+}
 
 function loadSettings() {
+    try {
+        let savedSettings = tableau.extensions.settings.get('appSettings');
+        if (savedSettings) {
+            settings = savedSettings;
+        }
+    } catch (error) {
+        console.error(error);   
+    }
     // select datetime column and groupId
     $('#select_datetime_column').empty();
     $('#select_group_column').empty();
@@ -205,12 +210,12 @@ function loadSettings() {
         $("#select_group_start").prop("disabled", false);
         $("#select_group_end").prop("disabled", false);
         for (let i = 0; i < columns.length; i++) {
-            if (i == date_column_index) {
+            if (i == settings.date_column_index) {
                 $('#select_datetime_column').append("<option value="+i+" selected>"+columns[i].title+"</option>");
             } else {
                 $('#select_datetime_column').append("<option value="+i+">"+columns[i].title+"</option>");
             }
-            if (i == group_column_index) {
+            if (i == settings.group_column_index) {
                 $('#select_group_column').append("<option value="+i+" selected>"+columns[i].title+"</option>");
             } else {
                 $('#select_group_column').append("<option value="+i+">"+columns[i].title+"</option>");
@@ -224,22 +229,22 @@ function loadSettings() {
     }
 
     //datetime settings
-    $('#input_date_sep').val(date_seperator);
-    $('#input_date_time_sep').val(date_time_seperator);
-    $('#select_date_format').val(date_form);
-    $('#select_time_format').val(time_form);
+    $('#input_date_sep').val(settings.date_seperator);
+    $('#input_date_time_sep').val(settings.date_time_seperator);
+    $('#select_date_format').val(settings.date_form);
+    $('#select_time_format').val(settings.time_form);
 
     //group settings
-    $('#input_group_sep').val(group_seperator);
-    let group_column_array = group_column_name.split(group_seperator);
+    $('#input_group_sep').val(settings.group_seperator);
+    let group_column_array = settings.group_column_name.split(settings.group_seperator);
     for (let i = 0; i < group_column_array.length; i++) {
         const column_name = group_column_array[i];
-        if (i == group_start_index) {
+        if (i == settings.group_start_index) {
             $("#select_group_start").append("<option value="+i+" selected>"+column_name+"</option>");
         } else {
             $("#select_group_start").append("<option value="+i+">"+column_name+"</option>");
         }
-        if (i == group_end_index) {
+        if (i == settings.group_end_index) {
             $("#select_group_end").append("<option value="+i+" selected>"+column_name+"</option>");
         } else {
             $("#select_group_end").append("<option value="+i+">"+column_name+"</option>");
@@ -247,10 +252,10 @@ function loadSettings() {
     }
 
     //feedback settings
-    $('#input_feedback_server').val(feedback_url);
-    $('#input_feedback_username').val(username);
+    $('#input_feedback_server').val(settings.feedback_url);
+    $('#input_feedback_username').val(settings.username);
     $('#input_feedback_password').val("");
-    if (password != "") {
+    if (settings.password != "") {
         $('#input_feedback_password').attr("placeholder", "(*unchanged*)");
     }
     $('#version_number').text(versionNumber);
@@ -259,24 +264,30 @@ function loadSettings() {
 
 function saveSettings() {
     //datetime settings
-    date_column_index = $("#select_datetime_column").val();
-    date_column_name = $("#select_datetime_column :selected").text();
-    date_seperator =  $('#input_date_sep').val();
-    date_time_seperator = $('#input_date_time_sep').val();
-    date_form = $("#select_date_format").val();
-    time_form = $("#select_time_format").val();
+    settings.date_column_index = $("#select_datetime_column").val();
+    settings.date_column_name = $("#select_datetime_column :selected").text();
+    settings.date_seperator =  $('#input_date_sep').val();
+    settings.date_time_seperator = $('#input_date_time_sep').val();
+    settings.date_form = $("#select_date_format").val();
+    settings.time_form = $("#select_time_format").val();
 
     //group settings
-    group_column_name = $("#select_group_column :selected").text();
-    group_column_index = $("#select_group_column").val();
-    group_seperator = $('#input_group_sep').val();
-    group_start_index = $("#select_group_start").val();
-    group_end_index = $("#select_group_end").val();
+    settings.group_column_name = $("#select_group_column :selected").text();
+    settings.group_column_index = $("#select_group_column").val();
+    settings.group_seperator = $('#input_group_sep').val();
+    settings.group_start_index = $("#select_group_start").val();
+    settings.group_end_index = $("#select_group_end").val();
 
     //feedback settings
-    feedback_url = $('#input_feedback_server').val();
-    username = $('#input_feedback_username').val();
-    password = $('#input_feedback_password').val()==""?password:$('#input_feedback_password').val();
+    settings.feedback_url = $('#input_feedback_server').val();
+    settings.username = $('#input_feedback_username').val();
+    settings.password = $('#input_feedback_password').val()==""?settings.password:$('#input_feedback_password').val();
+
+    try {
+        tableau.extensions.settings.set('appSettings', settings);
+    } catch (error) {
+        console.error(error);
+    }
 }
 
 function togglePassword() {
@@ -308,17 +319,16 @@ function initializeButtons() {
     $('#ranges_submit_button').click(submitRanges);
 
     $('#test_data_button').click(testData);
-    $('#show_groups_button').click(function() {$('#groups').show()});
-    $('#test_things_button').click(testThings)
+    $('#test_things_button').click(testThings);
 }
 
 function testThings() {
-    getAllGroups(group_column_index);
-    createGroupsTableHeaders(group_column_name, group_seperator);
+    getAllGroups(settings.group_column_index);
+    createGroupsTableHeaders(settings.group_column_name, settings.group_seperator);
     let group_rows = [];
     for (let i = 0; i < groups_array.length; i++) {
         const element = groups_array[i];
-        group_rows.push(addGroupsTableEntry(element, group_seperator));
+        group_rows.push(addGroupsTableEntry(element, settings.group_seperator));
     }
     $('#groups').show()
 }
@@ -356,8 +366,8 @@ function addGroupsTableEntry(group_string, sep)  {
     let button_no = $("<button class='btn btn-danger btn-sm'>No</button>");
     let button_show_range = $("<button class='btn btn-secondary btn-sm'>Show</button>")
 
-    let start = row.cells[group_start_index].innerText;
-    let end = row.cells[group_end_index].innerText;
+    let start = row.cells[settings.group_start_index].innerText;
+    let end = row.cells[settings.group_end_index].innerText;
     start = new Date(start);
     end = new Date(end);
     button_yes.click(function() {markRangeAsFault(start, end, false)});
@@ -372,10 +382,23 @@ function addGroupsTableEntry(group_string, sep)  {
     return row;
 }
 
+function convertToUTC(date) {
+    let year = date.getFullYear();
+    let month = date.getMonth();
+    let day = date.getDate();
+    let hour = date.getHours();
+    let minute = date.getMinutes();
+    let second = date.getSeconds();
+
+    return new Date(Date.UTC(year, month, day, hour, minute, second));
+}
+
 function showRange(start_date, end_date) {
     const worksheet = getSelectedSheet(tableau.extensions.settings.get('sheet'));
-    worksheet.applyRangeFilterAsync(date_column_name, {min: start_date, max: end_date});
-    filteredColumns.push(date_column_name);
+    start_date = convertToUTC(start_date);
+    end_date = convertToUTC(end_date);
+    worksheet.applyRangeFilterAsync(settings.date_column_name, {min: start_date, max: end_date});
+    filteredColumns.push(settings.date_column_name);
 }
 
 var fdd_events = {data_step: 1337, data_start: "1970-01-01T00:00:00", data_end: "2999-12-31T23:59:59", ranges: []};
@@ -412,11 +435,11 @@ function markRangeAsFault(start_time, end_time, fault) {
 
 function markSelectedAsFault(fault) {
     // get the list of marks as selected_marks
-    let dates = data_table.column(date_column_index).data().toArray();
+    let dates = data_table.column(settings.date_column_index).data().toArray();
     let last = new Date("1970-01-01T00:00:00");
     let first = new Date("2999-12-31T23:59:59");
     for (let i = 0; i<dates.length; i++) {
-        let date = formatDateTime(dates[i], date_seperator, date_time_seperator, date_form, time_form);
+        let date = formatDateTime(dates[i], settings.date_seperator, settings.date_time_seperator, settings.date_form, settings.time_form);
         last = date>last?date:last;
         first = date<first?date:first;
     }
@@ -475,7 +498,7 @@ function submitRanges() {
             fdd_events.ranges.push(fdd_event_ranges[range_index]);
         }
     }
-    if (feedback_url == "") {
+    if (settings.feedback_url == "") {
         $("#feedback_server_settings").collapse('show');
         $('#app_settings_modal').modal("show");
     } else {
@@ -492,21 +515,21 @@ function testData() {
                   ["07.04.2019 12:11:00", "0", "7", ""]];
     populateDataTable(t_data, t_columns);
 
-    date_column_index = 0;
-    date_seperator = ".";
-    date_time_seperator = " ";
-    date_form = "dmy";
-    time_form = 24;
+    settings.date_column_index = 0;
+    settings.date_seperator = ".";
+    settings.date_time_seperator = " ";
+    settings.date_form = "dmy";
+    settings.time_form = 24;
 
-    group_column_name = "GroupID_start_end_sensors";
-    group_column_index = 3;
-    group_seperator = "_";
-    group_start_index = 1;
-    group_end_index = 2;
+    settings.group_column_name = "GroupID_start_end_sensors";
+    settings.group_column_index = 3;
+    settings.group_seperator = "_";
+    settings.group_start_index = 1;
+    settings.group_end_index = 2;
 
-    feedback_url = "example.com/feedback";
-    username = "username";
-    password = "password";
+    settings.feedback_url = "example.com/feedback";
+    settings.username = "username";
+    settings.password = "password";
     loadSettings();
 }
 
