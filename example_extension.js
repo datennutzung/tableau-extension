@@ -97,6 +97,8 @@ function loadSelectedMarks(worksheetName) {
         });
 
         // Populate the data table with the rows and columns we just pulled out
+        findGroups();
+        
         populateDataTable(data, columns);
     });
 
@@ -108,12 +110,16 @@ function loadSelectedMarks(worksheetName) {
 }
 
 var data_table;
-var data;
+var data = [];
 var columns;
 function populateDataTable(p_data, p_columns) {
     data = p_data;
     // Do some UI setup here: change the visible section and reinitialize the table
     $('#data_table_wrapper').empty();
+    if (settings.hideData)
+        $('#selection_data').hide();
+     else 
+        $('#selection_data').show();
 
     if (p_data.length > 0) {
         columns = p_columns;
@@ -151,11 +157,11 @@ function populateDataTable(p_data, p_columns) {
             headerCallback: headerCallback,
             dom: "<'row'<'col-sm-6'i><'col-sm-6'f>><'row'<'col-sm-12'tr>>" // Do some custom styling
         });
-        $("#btn_fault_group").show();
+        $('#btn_fault_group').show();
     } else {
         // If we didn't get any rows back, there must be no marks selected
+        $('#btn_fault_group').hide();
         $('#no_data_message').css('display', 'inline');
-        $("#btn_fault_group").hide();
     }
 }
 
@@ -187,7 +193,14 @@ var settings = {
     group_end_index: 0,
     feedback_url: "",
     username: "",
-    password: ""
+    password: "",
+    hideData: true
+}
+
+function toggleDataVisibility() {
+    $('#toggle_data_visible_button').text(settings.hideData ? "Hide Data" : "Show Data");
+    settings.hideData = !settings.hideData;
+    populateDataTable(data, columns);
 }
 
 function loadSettings() {
@@ -258,6 +271,7 @@ function loadSettings() {
     if (settings.password != "") {
         $('#input_feedback_password').attr("placeholder", "(*unchanged*)");
     }
+
     $('#version_number').text(versionNumber);
     $('#app_settings_modal').modal("show");
 }
@@ -317,20 +331,26 @@ function initializeButtons() {
     $('#data_fault_button').click(function() {markSelectedAsFault(true)});
     $('#data_correct_button').click(function() {markSelectedAsFault(false)});
     $('#ranges_submit_button').click(submitRanges);
-
+    
+    $("#toggle_data_visible_button").click(toggleDataVisibility);
     $('#test_data_button').click(testData);
     $('#test_things_button').click(testThings);
 }
 
-function testThings() {
+function findGroups() {
     getAllGroups(settings.group_column_index);
     createGroupsTableHeaders(settings.group_column_name, settings.group_seperator);
+    $('#groups_table_body').empty();
     let group_rows = [];
     for (let i = 0; i < groups_array.length; i++) {
         const element = groups_array[i];
         group_rows.push(addGroupsTableEntry(element, settings.group_seperator));
     }
     $('#groups').show()
+}
+
+function testThings() {
+    findGroups();
 }
 
 function deleteGroupsTableEntry(rowObject) {
@@ -412,15 +432,15 @@ function addRangeEntry(array_pos) {
     let end = end_date + " " + end_time;
     let fault = fdd_event_ranges[array_pos].is_fault;
     
-    let li = "<li>"+array_pos+". "+start+" - "+end+" | Fault: "+fault+"<span class='btn-close' onclick='removeRangeEntry(this)'>&times;</span></li>";
+    let li = "<li>"+array_pos+". "+start+" - "+end+" | Fault: "+fault+"<span class='btn-close' onclick='removeRangeEntry(this.parentElement)'>&times;</span></li>";
     $("#ranges_list").append(li);
     $("#ranges").show();
 }
 
 function removeRangeEntry(object) {
-    let array_pos = parseInt(object.parentElement.innerText.split(".")[0], 10);
+    let array_pos = parseInt(object.innerText.split(".")[0], 10);
     delete fdd_event_ranges[array_pos];
-    object.parentElement.remove();
+    object.remove();
 
     if ($("#ranges_list").children().length === 0) {
         $("#ranges").hide();
@@ -491,6 +511,11 @@ function formatDateTime(datetime="", date_sep=".", date_time_sep=" ", dateFormat
     return new Date(new_date_str);
 }
 
+function deleteAllRanges() {
+    let ranges = $("#ranges_list").children();
+    ranges.toArray().forEach(element => {removeRangeEntry(element)});
+}
+
 function submitRanges() {
     fdd_events.ranges = [];
     for (let range_index = 0; range_index <= fdd_event_ranges.length; range_index++) {
@@ -503,16 +528,37 @@ function submitRanges() {
         $('#app_settings_modal').modal("show");
     } else {
         // send fdd_events to feedback server
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", settings.feedback_url, true);
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function() {
+            console.log(this.status +" "+ this.statusText);
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                deleteAllRanges();
+            }
+        }
+        xhr.onerror = function() {
+            alert("Error! "+this.statusText)
+        }
+
+        if (settings.username != "")
+            fdd_events.username = settings.username;
+        if (settings.password != "")
+            fdd_events.password = settings.password;
+        
         let to_send = JSON.stringify(fdd_events);
+        xhr.send(to_send);
         console.log(to_send);
     }   
 }
 
 function testData() {
-    let t_columns = [{title:"Date Time"}, {title:"Fault"}, {title:"pH distillate"}, {title:"GroupID_start_end_sensors"}];
-    let t_data = [["01.04.2019 22:43:15", "1", "18", "a1_2019-04-01T22:43:15_2019-05-04T00:13:11_s1,s2"],
-                  ["05.04.2019 00:13:11", "1", "3", "a1_2019-04-01T22:43:15_2019-05-04T00:13:11_s1,s2"],
+    let t_columns = [{title:"Date Time"}, {title:"Fault"}, {title:"pH distillate"}, {title:"GroupID#start#end"}];
+    let t_data = [["01.04.2019 22:43:15", "1", "18", "a1#2019-04-01T22:43:15#2019-05-04T00:13:11"],
+                  ["05.04.2019 00:13:11", "1", "3", "a1#2019-04-01T22:43:15#2019-05-04T00:13:11"],
                   ["07.04.2019 12:11:00", "0", "7", ""]];
+    data = t_data;
+    columns = t_columns;
     populateDataTable(t_data, t_columns);
 
     settings.date_column_index = 0;
@@ -521,13 +567,13 @@ function testData() {
     settings.date_form = "dmy";
     settings.time_form = 24;
 
-    settings.group_column_name = "GroupID_start_end_sensors";
+    settings.group_column_name = "GroupID#start#end";
     settings.group_column_index = 3;
-    settings.group_seperator = "_";
+    settings.group_seperator = "#";
     settings.group_start_index = 1;
     settings.group_end_index = 2;
 
-    settings.feedback_url = "example.com/feedback";
+    settings.feedback_url = "https://example.com/feedback";
     settings.username = "username";
     settings.password = "password";
     loadSettings();

@@ -45,15 +45,18 @@
                         <tbody id="groups_table_body"></tbody>
                     </table>
                 </div>
-                <div id="data_table_wrapper"></div>
                 <div id="no_data_message">
                     <h5 class="text-center">No marks selected</h5>
                 </div>
-                <div id="btn_fault_group" style="display:none">
-                    <button id="data_fault_button" type="button" class="btn btn-danger btn-fault" title="Mark items in list as faulty">Mark Fault</button>
-                    <button id="data_correct_button" type="button" class="btn btn-success btn-fault" title="Mark items in list as correct">Mark Correct</button>
+                <div id="selection_data" style="display: none;">
+                    <div id="data_table_wrapper"></div>
+                    <div id="btn_fault_group" style="display: none;">
+                        <button id="data_fault_button" type="button" class="btn btn-danger btn-fault" title="Mark items in list as faulty">Mark Fault</button>
+                        <button id="data_correct_button" type="button" class="btn btn-success btn-fault" title="Mark items in list as correct">Mark Correct</button>
+                    </div>
                 </div>
             </div>
+            <br>
             <div id="ranges" style="display:none">
                 <ul class="closeable" id="ranges_list"></ul>
                 <button id="ranges_submit_button" type="button" class="btn btn-primary btn-submit" title="Submit the entries to the feedback server">Submit</button>
@@ -190,11 +193,12 @@
                             </form>
                         </div>
                         <hr>
-                        <button class="btn btn-link btn-collapse collapsed" type="button" data-toggle="collapse" data-target="#experimental_settings">
-                            <i class="chevron material-icons">expand_more</i> Experimental Settings
+                        <button class="btn btn-link btn-collapse collapsed" type="button" data-toggle="collapse" data-target="#advanced_settings">
+                            <i class="chevron material-icons">expand_more</i> Advanced Settings
                         </button>                        
-                        <div id="experimental_settings" class="collapse">
-                            <button id="test_data_button"   class="btn btn-warning">Load Test Data</button>
+                        <div id="advanced_settings" class="collapse">
+                            <button id="toggle_data_visible_button" class="btn btn-warning">Show Data</button>
+                            <button id="test_data_button" class="btn btn-warning">Load Test Data</button>
                             <button id="test_things_button" class="btn btn-warning">Test Things</button>
                         </div>
                     </div>
