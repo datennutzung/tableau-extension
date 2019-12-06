@@ -48,7 +48,10 @@
                 <div id="no_data_message">
                     <h5 class="text-center">No marks selected</h5>
                 </div>
-                <div id="selection_data" style="display: none;">
+                <button class="btn btn-link btn-collapse collapsed" type="button" data-toggle="collapse" data-target="#selection_data">
+                    <i class="chevron material-icons">expand_more</i> Selected Data
+                </button>
+                <div id="selection_data" class="collapse">
                     <div id="data_table_wrapper"></div>
                     <div id="btn_fault_group" style="display: none;">
                         <button id="data_fault_button" type="button" class="btn btn-danger btn-fault" title="Mark items in list as faulty">Mark Fault</button>
@@ -197,7 +200,6 @@
                             <i class="chevron material-icons">expand_more</i> Advanced Settings
                         </button>                        
                         <div id="advanced_settings" class="collapse">
-                            <button id="toggle_data_visible_button" class="btn btn-warning">Show Data</button>
                             <button id="test_data_button" class="btn btn-warning">Load Test Data</button>
                             <button id="test_things_button" class="btn btn-warning">Test Things</button>
                         </div>
