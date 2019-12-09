@@ -97,9 +97,9 @@ function loadSelectedMarks(worksheetName) {
         });
 
         // Populate the data table with the rows and columns we just pulled out
-        findGroups();
-        
         populateDataTable(data, columns);
+        if (settings.ready)
+            findGroups();
     });
 
     // Add an event listener for the selection changed event on this sheet.
@@ -185,6 +185,7 @@ var settings = {
     group_seperator: "#",
     group_start_index: 0,
     group_end_index: 0,
+    ready: false,
     feedback_url: "",
     username: "",
     password: "",
@@ -194,7 +195,7 @@ function loadSettings() {
     try {
         let savedSettings = tableau.extensions.settings.get('appSettings');
         if (savedSettings) {
-            settings = savedSettings;
+            settings = JSON.parse(savedSettings);
         }
     } catch (error) {
         console.error(error);   
@@ -285,7 +286,7 @@ function saveSettings() {
     settings.password = $('#input_feedback_password').val()==""?settings.password:$('#input_feedback_password').val();
 
     try {
-        tableau.extensions.settings.set('appSettings', settings);
+        tableau.extensions.settings.set('appSettings', JSON.stringify(settings));
     } catch (error) {
         console.error(error);
     }
