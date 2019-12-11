@@ -884,7 +884,8 @@ function testData() {
     settings.group_column_index = 7;
     settings.group_seperator = "#";
     settings.group_start_index = 1;
-    settings.group_end_index = 2;
+	settings.group_end_index = 2;
+	settings.ready = true;
 
     settings.feedback_url = "https://example.com/feedback";
     settings.username = "username";
