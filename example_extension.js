@@ -358,10 +358,7 @@ function findGroups() {
 
 function reset() {
 	settings = JSON.parse(default_settings);
-	for (let i = 0; i < fdd_event_ranges.length; i++) {
-		const range_entry = fdd_event_ranges[i];
-		removeRangeEntry(range_entry);
-	}
+	deleteAllRanges();
 	$('#groups_table_head').empty();
 	$('#groups_table_body').empty();
 	groups_array = [];
@@ -370,6 +367,11 @@ function reset() {
 	data = [];
 	columns = undefined;
 	populateDataTable(data, columns);
+	try {
+		tableau.extensions.settings.erase("appSettings")
+	} catch (error) {
+		console.error(error)
+	}
 	loadSettings();
 }
 
