@@ -192,6 +192,8 @@ var settings = {
     password: "",
 }
 
+var default_settings = JSON.stringify(settings);
+
 function loadSettings() {
     try {
         let saved_settings = tableau.extensions.settings.get('appSettings');
@@ -264,7 +266,9 @@ function loadSettings() {
     $('#input_feedback_password').val("");
     if (settings.password != "") {
         $('#input_feedback_password').attr("placeholder", "(*unchanged*)");
-    }
+    } else {
+		$('#input_feedback_password').attr("placeholder", "Password");
+	}
 
     $('#version_number').text(versionNumber);
     $('#app_settings_modal').modal("show");
@@ -331,8 +335,8 @@ function initializeButtons() {
     $('#data_correct_button').click(function() {markSelectedAsFault(false)});
     $('#ranges_submit_button').click(submitRanges);
     
+    $('#reset_button').click(reset);
     $('#test_data_button').click(testData);
-    $('#test_things_button').click(testThings);
 }
 
 function findGroups() {
@@ -340,6 +344,8 @@ function findGroups() {
     createGroupsTableHeaders(settings.group_column_name, settings.group_seperator);
     $('#groups_table_body').empty();
     let group_rows = [];
+    if (groups_array.length != 0)
+        $('#no_groups_message').hide();
     for (let i = 0; i < groups_array.length; i++) {
         const element = groups_array[i];
         group_rows.push(addGroupsTableEntry(element, settings.group_seperator));
@@ -347,8 +353,9 @@ function findGroups() {
     $('#groups').show()
 }
 
-function testThings() {
-    findGroups();
+function reset() {
+	settings = JSON.parse(default_settings);
+	loadSettings();
 }
 
 function deleteGroupsTableEntry(rowObject) {
@@ -861,7 +868,7 @@ function testData() {
     settings.username = "username";
     settings.password = "password";
     loadSettings();
-    testThings();
+    findGroups();
 }
 
 // Save the columns we've applied filters to so we can reset them
