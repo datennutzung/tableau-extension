@@ -1,5 +1,5 @@
 'use strict';
-const versionNumber = "0.3.9"
+const versionNumber = "0.4.0"
 
 // Use the jQuery document ready signal to know when everything has been initialized
 $(document).ready(function() {
@@ -113,12 +113,12 @@ var data_table;
 var data = [];
 var columns;
 function populateDataTable(p_data, p_columns) {
-    data = p_data;
+	data = p_data;
+	$('#data_table_wrapper').empty();
     // Do some UI setup here: change the visible section and reinitialize the table
     if (p_data.length > 0) {
         columns = p_columns;
         $('#no_data_message').css('display', 'none');
-        $('#data_table_wrapper').empty();
         $('#data_table_wrapper').append(`<table id='data_table' class='table table-striped table-bordered'></table>`);
 
         // Do some math to compute the height we want the data table to be
@@ -339,13 +339,16 @@ function initializeButtons() {
     $('#test_data_button').click(testData);
 }
 
+var group_rows = [];
 function findGroups() {
     getAllGroups(settings.group_column_index);
     createGroupsTableHeaders(settings.group_column_name, settings.group_seperator);
     $('#groups_table_body').empty();
-    let group_rows = [];
+    group_rows = [];
     if (groups_array.length != 0)
-        $('#no_groups_message').hide();
+		$('#no_groups_message').hide();
+	else
+		$('#no_groups_message').show();
     for (let i = 0; i < groups_array.length; i++) {
         const element = groups_array[i];
         group_rows.push(addGroupsTableEntry(element, settings.group_seperator));
@@ -355,6 +358,18 @@ function findGroups() {
 
 function reset() {
 	settings = JSON.parse(default_settings);
+	for (let i = 0; i < fdd_event_ranges.length; i++) {
+		const range_entry = fdd_event_ranges[i];
+		removeRangeEntry(range_entry);
+	}
+	$('#groups_table_head').empty();
+	$('#groups_table_body').empty();
+	groups_array = [];
+	group_rows = [];
+	$('#no_groups_message').show();
+	data = [];
+	columns = undefined;
+	populateDataTable(data, columns);
 	loadSettings();
 }
 
