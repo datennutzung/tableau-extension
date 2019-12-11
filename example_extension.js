@@ -1,5 +1,5 @@
 'use strict';
-const versionNumber = "0.3.8"
+const versionNumber = "0.3.9"
 
 // Use the jQuery document ready signal to know when everything has been initialized
 $(document).ready(function() {
