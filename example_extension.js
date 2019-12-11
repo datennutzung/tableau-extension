@@ -193,9 +193,12 @@ var settings = {
 
 function loadSettings() {
     try {
-        let savedSettings = tableau.extensions.settings.get('appSettings');
-        if (savedSettings) {
-            settings = JSON.parse(savedSettings);
+        let saved_settings = tableau.extensions.settings.get('appSettings');
+        if (saved_settings) {
+            let temp_password = settings.password;
+            saved_settings = JSON.parse(saved_settings);
+            saved_settings.password = temp_password;
+            settings = saved_settings;
         }
     } catch (error) {
         console.error(error);   
@@ -286,7 +289,11 @@ function saveSettings() {
     settings.password = $('#input_feedback_password').val()==""?settings.password:$('#input_feedback_password').val();
 
     try {
-        tableau.extensions.settings.set('appSettings', JSON.stringify(settings));
+        let temp_password = settings.password;
+        delete settings.password;
+        tableau.extensions.settings.set('appSettings', JSON.stringify(saved_settings));
+        settings.password = temp_password;
+        tableau.extensions.settings.saveAsync();
     } catch (error) {
         console.error(error);
     }
