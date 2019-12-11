@@ -1,5 +1,5 @@
 'use strict';
-const versionNumber = "0.3.6"
+const versionNumber = "0.3.7"
 
 // Use the jQuery document ready signal to know when everything has been initialized
 $(document).ready(function() {
@@ -118,6 +118,7 @@ function populateDataTable(p_data, p_columns) {
     if (p_data.length > 0) {
         columns = p_columns;
         $('#no_data_message').css('display', 'none');
+        $('#data_table_wrapper').empty();
         $('#data_table_wrapper').append(`<table id='data_table' class='table table-striped table-bordered'></table>`);
 
         // Do some math to compute the height we want the data table to be
@@ -291,7 +292,7 @@ function saveSettings() {
     try {
         let temp_password = settings.password;
         delete settings.password;
-        tableau.extensions.settings.set('appSettings', JSON.stringify(saved_settings));
+        tableau.extensions.settings.set('appSettings', JSON.stringify(settings));
         settings.password = temp_password;
         tableau.extensions.settings.saveAsync();
     } catch (error) {
