@@ -265,9 +265,9 @@ function loadSettings() {
     $('#input_feedback_username').val(settings.username);
     $('#input_feedback_password').val("");
     if (settings.password != "") {
-        $('#input_feedback_password').attr("placeholder", "(*unchanged*)");
+        $('#input_feedback_password').prop("placeholder", "(*unchanged*)");
     } else {
-		$('#input_feedback_password').attr("placeholder", "Password");
+		$('#input_feedback_password').prop("placeholder", "Password");
 	}
 
     $('#version_number').text(versionNumber);
@@ -311,12 +311,12 @@ function togglePassword() {
     let visible = "visibility";
     let not_visible = "visibility_off";
     let input = $($(this).attr("toggle"));
-    let icon = $(this)[0].firstElementChild;
-    if (input.attr("type") == "password") {
-        input.attr("type", "text");
+    let icon = this.firstElementChild;
+    if (input.prop("type") == "password") {
+        input.prop("type", "text");
         icon.innerText = not_visible;
     } else {
-        input.attr("type", "password");
+        input.prop("type", "password");
         icon.innerText = visible;
     }
 }
