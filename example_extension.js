@@ -1,5 +1,5 @@
 'use strict';
-const versionNumber = "0.4.0"
+const versionNumber = "0.4.1"
 
 // Use the jQuery document ready signal to know when everything has been initialized
 $(document).ready(function() {
@@ -391,7 +391,12 @@ function createGroupsTableHeaders(group_header_string, sep) {
         cell.innerHTML = "<b>"+group_header_array[i]+"</b>";
     }
     let lastCell = row.insertCell(-1);
-    lastCell.innerHTML = "<b>Correct</b>"
+	lastCell.innerHTML = "<b>Correct</b> <button id='show_aal_button' class='btn btn-secondary btn-sm'>Show all</button>";
+	let show_aal = $('#show_aal_button');
+	show_aal.click(function () {
+		const worksheet = getSelectedSheet(tableau.extensions.settings.get('sheet'));
+		worksheet.clearFilterAsync(settings.date_column_name);
+	});
 }
 
 function addGroupsTableEntry(group_string, sep)  {
