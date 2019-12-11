@@ -1,5 +1,5 @@
 'use strict';
-const versionNumber = "0.3.7"
+const versionNumber = "0.3.8"
 
 // Use the jQuery document ready signal to know when everything has been initialized
 $(document).ready(function() {
@@ -255,6 +255,8 @@ function loadSettings() {
             $("#select_group_end").append("<option value="+i+">"+column_name+"</option>");
         }
     }
+    $('#check_ready').prop('checked', settings.ready)
+
 
     //feedback settings
     $('#input_feedback_server').val(settings.feedback_url);
@@ -283,6 +285,7 @@ function saveSettings() {
     settings.group_seperator = $('#input_group_sep').val();
     settings.group_start_index = $("#select_group_start").val();
     settings.group_end_index = $("#select_group_end").val();
+    settings.ready = $('#check_ready').prop('checked');
 
     //feedback settings
     settings.feedback_url = $('#input_feedback_server').val();
