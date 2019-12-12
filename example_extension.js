@@ -309,10 +309,6 @@ function saveSettings() {
     }
 }
 
-function verifySettings() {
-    if (date_seperator)
-}
-
 function togglePassword() {
     let visible = "visibility";
     let not_visible = "visibility_off";
@@ -573,7 +569,7 @@ function submitRanges() {
         }
 
         xhr.onerror = function() {
-            alert("Error while sending Feedback. \nStatus:"+this.status+": "+this.statusText+" \nResponse:"+this.response+": "+this.responseText)
+            alert("Error while sending Feedback. \nStatus: "+this.status+": "+this.statusText+" \nResponse: "+this.response+": "+this.responseText)
         }
 
         if (settings.username != "")
