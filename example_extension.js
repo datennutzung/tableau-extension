@@ -541,7 +541,7 @@ function formatDateTime(datetime="", date_sep=".", date_time_sep=" ", dateFormat
 
 function deleteAllRanges() {
     let ranges = $("#ranges_list").children();
-    ranges.toArray().forEach(element => {removeRangeEntry(element)});
+    ranges.toArray().forEach(element => {removeRangeEntry(element);});
 }
 
 function submitRanges() {
