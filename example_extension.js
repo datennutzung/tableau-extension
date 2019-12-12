@@ -309,6 +309,10 @@ function saveSettings() {
     }
 }
 
+function verifySettings() {
+    if (date_seperator)
+}
+
 function togglePassword() {
     let visible = "visibility";
     let not_visible = "visibility_off";
