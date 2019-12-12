@@ -569,7 +569,7 @@ function submitRanges() {
         }
 
         xhr.onerror = function() {
-            alert("Error while sending Feedback. \nStatus: "+this.status+": "+this.statusText+" \nResponse: "+this.response+": "+this.responseText)
+            alert("Error while sending Feedback. \nStatus: "+this.status+" : "+this.statusText+" \nResponse: "+this.response+" : "+this.responseText)
         }
 
         if (settings.username != "")
