@@ -1,5 +1,4 @@
-'use strict';
-const versionNumber = "0.4.2"
+const versionNumber = "0.4.2";
 
 // Use the jQuery document ready signal to know when everything has been initialized
 $(document).ready(function() {
@@ -190,7 +189,7 @@ var settings = {
     feedback_url: "",
     username: "",
     password: "",
-}
+};
 
 var default_settings = JSON.stringify(settings);
 
@@ -259,7 +258,7 @@ function loadSettings() {
             $("#select_group_end").append("<option value="+i+">"+column_name+"</option>");
         }
     }
-    $('#check_ready').prop('checked', settings.ready)
+    $('#check_ready').prop('checked', settings.ready);
 
 
     //feedback settings
@@ -333,8 +332,8 @@ function initializeButtons() {
     $('#ok_settings_button').click(saveSettings);
     $('.toggle-password').click(togglePassword);
 
-    $('#data_fault_button').click(function() {markSelectedAsFault(true)});
-    $('#data_correct_button').click(function() {markSelectedAsFault(false)});
+    $('#data_fault_button').click(function() {markSelectedAsFault(true);});
+    $('#data_correct_button').click(function() {markSelectedAsFault(false);});
     $('#ranges_submit_button').click(submitRanges);
     
     $('#reset_button').click(reset);
@@ -355,7 +354,7 @@ function findGroups() {
         const element = groups_array[i];
         group_rows.push(addGroupsTableEntry(element, settings.group_seperator));
     }
-    $('#groups').show()
+    $('#groups').show();
 }
 
 function reset() {
@@ -370,9 +369,9 @@ function reset() {
 	columns = undefined;
 	populateDataTable(data, columns);
 	try {
-		tableau.extensions.settings.erase("appSettings")
+		tableau.extensions.settings.erase("appSettings");
 	} catch (error) {
-		console.error(error)
+		console.error(error);
 	}
 	loadSettings();
 }
@@ -413,15 +412,15 @@ function addGroupsTableEntry(group_string, sep)  {
     let lastCell = row.insertCell(-1);
     let button_yes = $("<button class='btn btn-success btn-sm'>Yes</button>");
     let button_no = $("<button class='btn btn-danger btn-sm'>No</button>");
-    let button_show_range = $("<button class='btn btn-secondary btn-sm'>Show</button>")
+    let button_show_range = $("<button class='btn btn-secondary btn-sm'>Show</button>");
 
     let start = row.cells[settings.group_start_index].innerText;
     let end = row.cells[settings.group_end_index].innerText;
     start = new Date(start);
     end = new Date(end);
-    button_yes.click(function() {markRangeAsFault(start, end, false)});
-    button_no.click(function() {markRangeAsFault(start, end, true)});
-    button_show_range.click(function() {showRange(start, end)});
+    button_yes.click(function() {markRangeAsFault(start, end, false);});
+    button_no.click(function() {markRangeAsFault(start, end, true);});
+    button_show_range.click(function() {showRange(start, end);});
 
     lastCell.append(button_yes[0]);
     lastCell.append(" ");
@@ -502,7 +501,7 @@ function formatDateTime(datetime="", date_sep=".", date_time_sep=" ", dateFormat
     let time_str = date_time.join("");
     time_str.trim();
     if (time_str == "") {
-        time_str = "00:00:00"
+        time_str = "00:00:00";
     } else {
         if (time_format == 12) {
             if (time_str.endsWith("PM")) {
