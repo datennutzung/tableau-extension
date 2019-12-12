@@ -216,6 +216,7 @@ function loadSettings() {
         $('#select_group_column').prop("disabled", false);
         $("#select_group_start").prop("disabled", false);
         $("#select_group_end").prop("disabled", false);
+        $("#check_ready").prop("disabled", false);
         for (let i = 0; i < columns.length; i++) {
             if (i == settings.date_column_index) {
                 $('#select_datetime_column').append("<option value="+i+" selected>"+columns[i].title+"</option>");
@@ -233,6 +234,7 @@ function loadSettings() {
         $('#select_group_column').prop("disabled", true);
         $("#select_group_start").prop("disabled", true);
         $("#select_group_end").prop("disabled", true);
+        $("#check_ready").prop("disabled", true);
     }
 
     //datetime settings
@@ -391,7 +393,7 @@ function createGroupsTableHeaders(group_header_string, sep) {
         cell.innerHTML = "<b>"+group_header_array[i]+"</b>";
     }
     let lastCell = row.insertCell(-1);
-	lastCell.innerHTML = "<b>Correct</b> <button id='show_aal_button' class='btn btn-secondary btn-sm'>Show all</button>";
+	lastCell.innerHTML = "<b>Correct</b><span style='display: inline-block; width: 0.66rem'></span><button id='show_aal_button' class='btn btn-secondary btn-sm'>Show all</button>";
 	let show_aal = $('#show_aal_button');
 	show_aal.click(function () {
 		const worksheet = getSelectedSheet(tableau.extensions.settings.get('sheet'));
@@ -419,7 +421,7 @@ function addGroupsTableEntry(group_string, sep)  {
     end = new Date(end);
     button_yes.click(function() {markRangeAsFault(start, end, false)});
     button_no.click(function() {markRangeAsFault(start, end, true)});
-    button_show_range.click(function() {showRange(start, end)})
+    button_show_range.click(function() {showRange(start, end)});
 
     lastCell.append(button_yes[0]);
     lastCell.append(" ");
@@ -556,7 +558,8 @@ function submitRanges() {
     } else {
         // send fdd_events to feedback server
         let xhr = new XMLHttpRequest();
-        xhr.open("POST", settings.feedback_url, true);
+        let feedback_url = encodeURI(settings.feedback_url);
+        xhr.open("POST", feedback_url, true);
         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         xhr.onreadystatechange = function() {
             console.log(this.status +" "+ this.statusText);
@@ -564,8 +567,9 @@ function submitRanges() {
                 deleteAllRanges();
             }
         }
+
         xhr.onerror = function() {
-            alert("Error! "+this.statusText)
+            alert("Error while sending Feedback. \nStatus:"+this.status+": "+this.statusText+" \nResponse:"+this.response+": "+this.responseText)
         }
 
         if (settings.username != "")
@@ -574,7 +578,10 @@ function submitRanges() {
             fdd_events.password = settings.password;
         
         let to_send = JSON.stringify(fdd_events);
+        to_send = encodeURI(to_send);
         xhr.send(to_send);
+        delete fdd_events.username;
+        delete fdd_events.password;
         console.log(to_send);
     }   
 }
