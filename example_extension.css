@@ -48,12 +48,12 @@ https://stackoverflow.com/questions/924916/is-there-a-way-to-make-a-div-unselect
   bottom: -5px;
 }
 
-.btn-collapse.collapsed.chevron {
+.btn-collapse.collapsed .chevron {
   transition: all 0.2s ease-out;
   transform: rotate(0deg);
 }
 
-.btn-collapse.chevron {
+.btn-collapse .chevron {
   transition: all 0.2s ease-out;
   transform: rotate(-180deg);
 }

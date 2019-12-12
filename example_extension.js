@@ -516,23 +516,23 @@ function formatDateTime(datetime="", date_sep=".", date_time_sep=" ", dateFormat
             }
         }
     }
-
+    var year, month, day;
     switch (dateFormat) { 
         case "mdy":
-            var month = date_arr[0];
-            var day = date_arr[1];
-            var year = date_arr[2];
+            month = date_arr[0];
+            day = date_arr[1];
+            year = date_arr[2];
             break;
         case "ymd":
-            var year = date_arr[0];
-            var month = date_arr[1];
-            var day = date_arr[2];
+            year = date_arr[0];
+            month = date_arr[1];
+            day = date_arr[2];
             break;
         case "dmy":
         default:
-            var day = date_arr[0];
-            var month = date_arr[1];
-            var year = date_arr[2];
+            day = date_arr[0];
+            month = date_arr[1];
+            year = date_arr[2];
         break;
     }
     let new_date_str = year+"-"+month+"-"+day+"T"+time_str;
@@ -565,11 +565,11 @@ function submitRanges() {
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                 deleteAllRanges();
             }
-        }
+        };
 
         xhr.onerror = function() {
-            alert("Error while sending Feedback. \nStatus: "+this.status+" : "+this.statusText+" \nResponse: "+this.response+" : "+this.responseText)
-        }
+            alert("Error while sending Feedback. \nStatus: "+this.status+" : "+this.statusText+" \nResponse: "+this.response+" : "+this.responseText);
+        };
 
         if (settings.username != "")
             fdd_events.username = settings.username;
