@@ -89,10 +89,10 @@
                             <button type="button" class="btn btn-link color-black" id="settings_reload_button" title="Reload Settings">
                                 <i class="material-icons">cached</i>
                             </button>
-                            <button title="Choose Sheet" type="button" class="btn btn-link color-black" id="show_choose_sheet_button">
+                            <button title="Choose Sheet" type="button" class="btn btn-link color-black" data-dismiss="modal" id="show_choose_sheet_button">
                                 <i class="material-icons">dashboard</i>
                             </button>
-                            <button title="Reset Filters" type="button" class="btn btn-link color-black" id="reset_filters_button">
+                            <button title="Reset Filters" type="button" class="btn btn-link color-black" data-dismiss="modal" id="reset_filters_button">
                                 <i class="material-icons">low_priority</i>
                             </button>
                         </h5>
@@ -181,7 +181,7 @@
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" class="custom-control-input" id="check_ready">
                                 <label class="custom-control-label" for="check_ready">Group Information Correct</label>
-                              </div>
+                            </div>
                         </div>
                         <hr>
                         <button class="btn btn-link btn-collapse collapsed" type="button" data-toggle="collapse" data-target="#feedback_server_settings">

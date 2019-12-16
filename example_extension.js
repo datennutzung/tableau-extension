@@ -11,7 +11,7 @@ $(document).ready(function() {
 
 function initializeExtension() {
     // Fetch the saved sheet name from settings. This will be undefined if there isn't one configured yet
-    const savedSheetName = tableau.extensions.settings.get('sheet');
+    const savedSheetName = tableau.extensions.settings.get("sheet");
     if (savedSheetName) {
         // We have a saved sheet name, show its selected marks
         loadSelectedMarks(savedSheetName);
@@ -26,11 +26,11 @@ function initializeExtension() {
  */
 function showChooseSheetDialog() {
     // Clear out the existing list of sheets
-    $('#choose_sheet_buttons').empty();
+    $("#choose_sheet_buttons").empty();
 
-    // Set the dashboard's name in the title
+    // Set the dashboard"s name in the title
     const dashboardName = tableau.extensions.dashboardContent.dashboard.name;
-    $('#choose_sheet_title').text(dashboardName);
+    $("#choose_sheet_title").text(dashboardName);
 
     // The first step in choosing a sheet will be asking Tableau what sheets are available
     const worksheets = tableau.extensions.dashboardContent.dashboard.worksheets;
@@ -45,20 +45,21 @@ function showChooseSheetDialog() {
             // Get the worksheet name and save it to settings.
             filteredColumns = [];
             const worksheetName = worksheet.name;
-            tableau.extensions.settings.set('sheet', worksheetName);
+            tableau.extensions.settings.set("sheet", worksheetName);
             tableau.extensions.settings.saveAsync().then(function() {
                 // Once the save has completed, close the dialog and show the data table for this worksheet
-                $('#choose_sheet_dialog').modal('toggle');
+                $("#choose_sheet_dialog").modal("toggle");
+                reset();
                 loadSelectedMarks(worksheetName);
             });
         });
 
         // Add our button to the list of worksheets to choose from
-        $('#choose_sheet_buttons').append(button);
+        $("#choose_sheet_buttons").append(button);
     });
 
     // Show the dialog
-    $('#choose_sheet_dialog').modal('toggle');
+    $("#choose_sheet_dialog").modal("toggle");
 }
 
 // This variable will save off the function we can call to unregister listening to marks-selected events
@@ -73,14 +74,12 @@ function loadSelectedMarks(worksheetName) {
     const worksheet = getSelectedSheet(worksheetName);
 
     // Set our title to an appropriate value
-    $('#selected_marks_title').text(worksheet.name);
+    $("#selected_marks_title").text(worksheet.name);
 
     // Call to get the selected marks for our sheet
     worksheet.getSelectedMarksAsync().then(function(marks) {
         // Get the first DataTable for our selected marks (usually there is just one)
         const worksheetData = marks.data[0];
-        console.log(worksheetData);
-        //TODO: What if there are more than just one data table?
 
         // Map our data into the format which the data table component expects it
         const data = worksheetData.data.map(function(row, index) {
@@ -115,24 +114,24 @@ var data = [];
 var columns;
 function populateDataTable(p_data, p_columns) {
 	data = p_data;
-	$('#data_table_wrapper').empty();
+	$("#data_table_wrapper").empty();
     // Do some UI setup here: change the visible section and reinitialize the table
     if (p_data.length > 0) {
         columns = p_columns;
-        $('#no_data_message').css('display', 'none');
-        $('#data_table_wrapper').append(`<table id='data_table' class='table table-striped table-bordered'></table>`);
+        $("#no_data_message").css("display", "none");
+        $("#data_table_wrapper").append("<table id='data_table' class='table table-striped table-bordered'></table>");
 
         // Do some math to compute the height we want the data table to be
-        var top = $('#data_table_wrapper')[0].getBoundingClientRect().top;
+        var top = $("#data_table_wrapper")[0].getBoundingClientRect().top;
         var height = ($(document).height() - top)/2;
 
         const headerCallback = function(thead, p_data) {
-            const headers = $(thead).find('th');
+            const headers = $(thead).find("th");
             for (let i = 0; i < headers.length; i++) {
                 const header = $(headers[i]);
                 if (header.children().length === 0) {
                     const fieldName = header.text();
-                    const button = $(`<a href='#'>${fieldName}</a>`);
+                    const button = $("<a href='#'>"+fieldName+"</a>");
                     button.click(function() {
                         filterByColumn(i, fieldName);
                     });
@@ -142,7 +141,7 @@ function populateDataTable(p_data, p_columns) {
         };
 
         // Initialize our data table with what we just gathered
-        data_table = $('#data_table').DataTable({
+        data_table = $("#data_table").DataTable({
             data: p_data,
             columns: p_columns,
             autoWidth: false,
@@ -153,11 +152,11 @@ function populateDataTable(p_data, p_columns) {
             headerCallback: headerCallback,
             dom: "<'row'<'col-sm-6'i><'col-sm-6'f>><'row'<'col-sm-12'tr>>" // Do some custom styling
         });
-        $('#btn_fault_group').show();
+        $("#btn_fault_group").show();
     } else {
         // If we didn't get any rows back, there must be no marks selected
-        $('#btn_fault_group').hide();
-        $('#no_data_message').css('display', 'inline');
+        $("#btn_fault_group").hide();
+        $("#no_data_message").css("display", "inline");
     }
 }
 
@@ -197,113 +196,102 @@ var default_settings = JSON.stringify(settings);
 
 function loadSettings() {
     try {
-        let saved_settings = tableau.extensions.settings.get('appSettings');
+        let saved_settings = tableau.extensions.settings.get("appSettings");
         if (saved_settings) {
-            let temp_password = settings.password;
             saved_settings = JSON.parse(saved_settings);
-            saved_settings.password = temp_password;
-            settings = saved_settings;
+            for (const key in saved_settings) {
+                settings[key] = saved_settings[key];
+            }
         }
     } catch (error) {
         console.error(error);   
     }
     // select datetime column and groupId
-    $('#select_datetime_column').empty();
-    $('#select_group_column').empty();
-    $("#select_group_start").empty();
-    $("#select_group_end").empty();
+    $("#select_datetime_column").empty();
+    $("#select_group_column").empty();
     if (columns !== undefined) {
-        $('#select_datetime_column').prop("disabled", false);
-        $('#select_group_column').prop("disabled", false);
+        $("#select_datetime_column").prop("disabled", false);
+        $("#select_group_column").prop("disabled", false);
         $("#select_group_start").prop("disabled", false);
         $("#select_group_end").prop("disabled", false);
         $("#check_ready").prop("disabled", false);
         for (let i = 0; i < columns.length; i++) {
+            if (columns[i].title.startsWith("ATTR(")) {
+                columns[i].title = columns[i].title.substring(5, columns[i].title.length-1);
+            }
             if (i == settings.date_column_index) {
-                $('#select_datetime_column').append("<option value="+i+" selected>"+columns[i].title+"</option>");
+                $("#select_datetime_column").append("<option value="+i+" selected>"+columns[i].title+"</option>");
             } else {
-                $('#select_datetime_column').append("<option value="+i+">"+columns[i].title+"</option>");
+                $("#select_datetime_column").append("<option value="+i+">"+columns[i].title+"</option>");
             }
             if (i == settings.group_column_index) {
-                $('#select_group_column').append("<option value="+i+" selected>"+columns[i].title+"</option>");
+                $("#select_group_column").append("<option value="+i+" selected>"+columns[i].title+"</option>");
             } else {
-                $('#select_group_column').append("<option value="+i+">"+columns[i].title+"</option>");
+                $("#select_group_column").append("<option value="+i+">"+columns[i].title+"</option>");
             }
         }
     } else {
-        $('#select_datetime_column').prop("disabled", true);
-        $('#select_group_column').prop("disabled", true);
+        $("#select_datetime_column").prop("disabled", true);
+        $("#select_group_column").prop("disabled", true);
         $("#select_group_start").prop("disabled", true);
         $("#select_group_end").prop("disabled", true);
         $("#check_ready").prop("disabled", true);
     }
-
     //datetime settings
-    $('#input_date_sep').val(settings.date_seperator);
-    $('#input_date_time_sep').val(settings.date_time_seperator);
-    $('#select_date_format').val(settings.date_form);
-    $('#select_time_format').val(settings.time_form);
+    $("#input_date_sep").val(settings.date_seperator);
+    $("#input_date_time_sep").val(settings.date_time_seperator);
+    $("#select_date_format").val(settings.date_form);
+    $("#select_time_format").val(settings.time_form);
 
     //group settings
-    $('#input_group_sep').val(settings.group_seperator);
-    let group_column_array = settings.group_column_name.split(settings.group_seperator);
-    for (let i = 0; i < group_column_array.length; i++) {
-        const column_name = group_column_array[i];
-        if (i == settings.group_start_index) {
-            $("#select_group_start").append("<option value="+i+" selected>"+column_name+"</option>");
-        } else {
-            $("#select_group_start").append("<option value="+i+">"+column_name+"</option>");
-        }
-        if (i == settings.group_end_index) {
-            $("#select_group_end").append("<option value="+i+" selected>"+column_name+"</option>");
-        } else {
-            $("#select_group_end").append("<option value="+i+">"+column_name+"</option>");
-        }
-    }
-    $('#check_ready').prop('checked', settings.ready);
-
+    $("#input_group_sep").val(settings.group_seperator);
+    startEndSelect();
+    $("#check_ready").prop("checked", settings.ready);
 
     //feedback settings
-    $('#input_feedback_server').val(settings.feedback_url);
-    $('#input_feedback_username').val(settings.username);
-    $('#input_feedback_password').val("");
+    $("#input_feedback_server").val(settings.feedback_url);
+    $("#input_feedback_username").val(settings.username);
+    $("#input_feedback_password").val("");
     if (settings.password != "") {
-        $('#input_feedback_password').prop("placeholder", "(*unchanged*)");
+        $("#input_feedback_password").prop("placeholder", "(*unchanged*)");
     } else {
-		$('#input_feedback_password').prop("placeholder", "Password");
+		$("#input_feedback_password").prop("placeholder", "Password");
 	}
 
-    $('#version_number').text(versionNumber);
-    $('#app_settings_modal').modal("show");
+    $("#version_number").text(versionNumber);
+    $("#app_settings_modal").modal("show");
 }
 
 function saveSettings() {
     //datetime settings
     settings.date_column_index = $("#select_datetime_column").val();
     settings.date_column_name = $("#select_datetime_column :selected").text();
-    settings.date_seperator =  $('#input_date_sep').val();
-    settings.date_time_seperator = $('#input_date_time_sep').val();
+    settings.date_seperator =  $("#input_date_sep").val();
+    settings.date_time_seperator = $("#input_date_time_sep").val();
     settings.date_form = $("#select_date_format").val();
     settings.time_form = $("#select_time_format").val();
 
     //group settings
     settings.group_column_name = $("#select_group_column :selected").text();
     settings.group_column_index = $("#select_group_column").val();
-    settings.group_seperator = $('#input_group_sep').val();
+    settings.group_seperator = $("#input_group_sep").val();
     settings.group_start_index = $("#select_group_start").val();
     settings.group_end_index = $("#select_group_end").val();
-    settings.ready = $('#check_ready').prop('checked');
+    settings.ready = $("#check_ready").prop("checked");
 
     //feedback settings
-    settings.feedback_url = $('#input_feedback_server').val();
-    settings.username = $('#input_feedback_username').val();
-    settings.password = $('#input_feedback_password').val()==""?settings.password:$('#input_feedback_password').val();
+    settings.feedback_url = $("#input_feedback_server").val();
+    settings.username = $("#input_feedback_username").val();
+    settings.password = $("#input_feedback_password").val()==""?settings.password:$("#input_feedback_password").val();
 
     try {
         let temp_password = settings.password;
+        let temp_ready = settings.ready;
         delete settings.password;
-        tableau.extensions.settings.set('appSettings', JSON.stringify(settings));
+        delete settings.ready;
+        tableau.extensions.settings.set("appSettings", JSON.stringify(settings));
         settings.password = temp_password;
+        settings.ready = temp_ready;
         tableau.extensions.settings.saveAsync();
     } catch (error) {
         console.error(error);
@@ -324,49 +312,70 @@ function togglePassword() {
     }
 }
 
+function startEndSelect() {
+    $("#select_group_start").empty();
+    $("#select_group_end").empty();
+    settings.group_column_name = $("#select_group_column :selected").text();
+    settings.group_column_index = $("#select_group_column").val();
+    let group_column_array = settings.group_column_name.split(settings.group_seperator);
+    for (let i = 0; i < group_column_array.length; i++) {
+        const column_name = group_column_array[i];
+        if (i == settings.group_start_index) {
+            $("#select_group_start").append("<option value="+i+" selected>"+column_name+"</option>");
+        } else {
+            $("#select_group_start").append("<option value="+i+">"+column_name+"</option>");
+        }
+        if (i == settings.group_end_index) {
+            $("#select_group_end").append("<option value="+i+" selected>"+column_name+"</option>");
+        } else {
+            $("#select_group_end").append("<option value="+i+">"+column_name+"</option>");
+        }
+    }
+}
+
 function initializeButtons() {
-    $('#show_choose_sheet_button').click(showChooseSheetDialog);
-    $('#reset_filters_button').click(resetFilters);
+    $("#show_choose_sheet_button").click(showChooseSheetDialog);
+    $("#reset_filters_button").click(resetFilters);
 
-    $('#app_settings_button').click(loadSettings);
-    $('#settings_reload_button').click(loadSettings);
-    $('#apply_settings_button').click(function() {saveSettings(); loadSettings();});
-    $('#ok_settings_button').click(saveSettings);
-    $('.toggle-password').click(togglePassword);
+    $("#app_settings_button").click(loadSettings);
+    $("#settings_reload_button").click(loadSettings);
+    $("#apply_settings_button").click(function() {saveSettings(); loadSettings();});
+    $("#ok_settings_button").click(saveSettings);
+    $(".toggle-password").click(togglePassword);
 
-    $('#data_fault_button').click(function() {markSelectedAsFault(true);});
-    $('#data_correct_button').click(function() {markSelectedAsFault(false);});
-    $('#ranges_submit_button').click(submitRanges);
-    
-    $('#reset_button').click(reset);
-    $('#test_data_button').click(testData);
+    $("#data_fault_button").click(function() {markSelectedAsFault(true);});
+    $("#data_correct_button").click(function() {markSelectedAsFault(false);});
+    $("#ranges_submit_button").click(submitRanges);
+    $("#select_group_column").change(startEndSelect);
+    $("#reset_button").click(function() {reset(); loadSettings();});
+    $("#test_data_button").click(testData);
 }
 
 var group_rows = [];
 function findGroups() {
     getAllGroups(settings.group_column_index);
     createGroupsTableHeaders(settings.group_column_name, settings.group_seperator);
-    $('#groups_table_body').empty();
+    $("#groups_table_body").empty();
     group_rows = [];
     if (groups_array.length != 0)
-		$('#no_groups_message').hide();
+		$("#no_groups_message").hide();
 	else
-		$('#no_groups_message').show();
+		$("#no_groups_message").show();
     for (let i = 0; i < groups_array.length; i++) {
         const element = groups_array[i];
         group_rows.push(addGroupsTableEntry(element, settings.group_seperator));
     }
-    $('#groups').show();
+    $("#groups").show();
 }
 
 function reset() {
 	settings = JSON.parse(default_settings);
 	deleteAllRanges();
-	$('#groups_table_head').empty();
-	$('#groups_table_body').empty();
+	$("#groups_table_head").empty();
+	$("#groups_table_body").empty();
 	groups_array = [];
 	group_rows = [];
-	$('#no_groups_message').show();
+	$("#no_groups_message").show();
 	data = [];
 	columns = undefined;
 	populateDataTable(data, columns);
@@ -375,18 +384,17 @@ function reset() {
 	} catch (error) {
 		console.error(error);
 	}
-	loadSettings();
 }
 
 function deleteGroupsTableEntry(rowObject) {
     let index = rowObject.rowIndex-1;
-    let tbody = $('#groups_table_body')[0];
+    let tbody = $("#groups_table_body")[0];
     tbody.deleteRow(index);
 }
 
 function createGroupsTableHeaders(group_header_string, sep) {
     let group_header_array = group_header_string.split(sep);
-    let thead = $('#groups_table_head');
+    let thead = $("#groups_table_head");
     thead.empty();
     let row = thead[0].insertRow(0);
     for(let i = 0; i < group_header_array.length; i++) {
@@ -395,16 +403,16 @@ function createGroupsTableHeaders(group_header_string, sep) {
     }
     let lastCell = row.insertCell(-1);
 	lastCell.innerHTML = "<b>Correct</b><span style='display: inline-block; width: 0.66rem'></span><button id='show_aal_button' class='btn btn-secondary btn-sm'>Show all</button>";
-	let show_aal = $('#show_aal_button');
+	let show_aal = $("#show_aal_button");
 	show_aal.click(function () {
-		const worksheet = getSelectedSheet(tableau.extensions.settings.get('sheet'));
+		const worksheet = getSelectedSheet(tableau.extensions.settings.get("sheet"));
 		worksheet.clearFilterAsync(settings.date_column_name);
 	});
 }
 
 function addGroupsTableEntry(group_string, sep)  {
     let group_array = group_string.split(sep);
-    let tbody = $('#groups_table_body')[0];
+    let tbody = $("#groups_table_body")[0];
     let row = tbody.insertRow(-1);
     for(let i = 0; i < group_array.length; i++) {
         let cell =  row.insertCell(i);
@@ -444,7 +452,7 @@ function convertToUTC(date) {
 }
 
 function showRange(start_date, end_date) {
-    const worksheet = getSelectedSheet(tableau.extensions.settings.get('sheet'));
+    const worksheet = getSelectedSheet(tableau.extensions.settings.get("sheet"));
     start_date = convertToUTC(start_date);
     end_date = convertToUTC(end_date);
     worksheet.applyRangeFilterAsync(settings.date_column_name, {min: start_date, max: end_date});
@@ -554,14 +562,14 @@ function submitRanges() {
         }
     }
     if (settings.feedback_url == "") {
-        $("#feedback_server_settings").collapse('show');
-        $('#app_settings_modal').modal("show");
+        $("#feedback_server_settings").collapse("show");
+        $("#app_settings_modal").modal("show");
     } else {
         // send fdd_events to feedback server
         let xhr = new XMLHttpRequest();
         let feedback_url = encodeURI(settings.feedback_url);
         xhr.open("POST", feedback_url, true);
-        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhr.onreadystatechange = function() {
             console.log(this.status +" "+ this.statusText);
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
@@ -893,7 +901,7 @@ function testData() {
     settings.group_seperator = "#";
     settings.group_start_index = 1;
 	settings.group_end_index = 2;
-	settings.ready = true;
+    settings.ready = true;
 
     settings.feedback_url = "https://example.com/feedback";
     settings.username = "username";
@@ -912,14 +920,14 @@ function filterByColumn(columnIndex, fieldName) {
         return self.indexOf(value) === index;
     });
 
-    const worksheet = getSelectedSheet(tableau.extensions.settings.get('sheet'));
+    const worksheet = getSelectedSheet(tableau.extensions.settings.get("sheet"));
     worksheet.applyFilterAsync(fieldName, columnDomain, tableau.FilterUpdateType.Replace);
     filteredColumns.push(fieldName);
     return false;
 }
 
 function resetFilters() {
-    const worksheet = getSelectedSheet(tableau.extensions.settings.get('sheet'));
+    const worksheet = getSelectedSheet(tableau.extensions.settings.get("sheet"));
     filteredColumns.forEach(function(columnName) {
         worksheet.clearFilterAsync(columnName);
     });
@@ -929,7 +937,7 @@ function resetFilters() {
 
 function getSelectedSheet(worksheetName) {
     if (!worksheetName) {
-        worksheetName = tableau.extensions.settings.get('sheet');
+        worksheetName = tableau.extensions.settings.get("sheet");
     }
 
     // Go through all the worksheets in the dashboard and find the one we want
@@ -941,8 +949,8 @@ function getSelectedSheet(worksheetName) {
 /*
 
 DATEADD(
-'hour', DATEPART('hour', [Time]), DATEADD(
-'minute', DATEPART('minute', [Time]), DATEADD(
-'second', DATEPART('second', [Time]), [#Date])))
+"hour", DATEPART("hour", [Time]), DATEADD(
+"minute", DATEPART("minute", [Time]), DATEADD(
+"second", DATEPART("second", [Time]), [#Date])))
 
 */
