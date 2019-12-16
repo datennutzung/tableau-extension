@@ -1,4 +1,4 @@
-const versionNumber = "0.4.2";
+const versionNumber = "19w51d1";
 
 // Use the jQuery document ready signal to know when everything has been initialized
 $(document).ready(function() {
