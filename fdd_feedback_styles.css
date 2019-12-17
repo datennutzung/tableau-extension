@@ -30,11 +30,19 @@ https://stackoverflow.com/questions/924916/is-there-a-way-to-make-a-div-unselect
 }
 
 .color-black {
-  color: #212529;
+  color: #222222;
+}
+
+.color-black:hover {
+  color: #999999;
+}
+
+.color-black:active {
+  color: #999999;
 }
 
 #app_settings_modal .input-group {
-  padding-bottom: 5px;
+  padding-bottom: 0.315rem;
 }
 
 .btn-collapse {
@@ -45,7 +53,7 @@ https://stackoverflow.com/questions/924916/is-there-a-way-to-make-a-div-unselect
 
 .chevron {
   position: relative;
-  bottom: -5px;
+  bottom: -0.315rem;
 }
 
 .btn-collapse.collapsed .chevron {
@@ -59,13 +67,13 @@ https://stackoverflow.com/questions/924916/is-there-a-way-to-make-a-div-unselect
 }
 
 .toggleable-password {
-  padding-right: 29px;
+  padding-right: 1.8125rem;
 }
 
 .toggle-password {
   float: right;
-  margin-top: -30px;
-  margin-right: 5px;
+  margin-top: -1.875rem;
+  margin-right: 0.315rem;
   position: relative;
   z-index: 2;
   cursor: pointer;
@@ -74,23 +82,23 @@ https://stackoverflow.com/questions/924916/is-there-a-way-to-make-a-div-unselect
 .version {
   position: absolute;
   left: 1.2rem;
-  color: #bbb;
+  color: #b0b0b0;
   font-size: smaller;
 }
 
 
 #btn_fault_group {
     width: 100%;
-    height: 38px;
-    margin-bottom: 5px;
-    margin-top: 5px;
+    height: 2.357rem;
+    margin-bottom: 0.315rem;
+    margin-top: 0.315rem;
     align-content: space-between;
 }
 
 .btn-fault {
     float: right;
-    margin-left: 5px;
-    width: 120px;
+    margin-left: 0.315rem;
+    width: 7.5rem;
 }
 
 #ranges_submit_button {
@@ -101,16 +109,16 @@ ul.closeable {
     list-style-type: none;
     padding: 0;
     margin: 0;
-    margin-bottom: 5px;
-    margin-top: 5px;
+    margin-bottom: 0.315rem;
+    margin-top: 0.315rem;
   }
   
   ul.closeable li {
-    border: 1px solid #ddd;
-    margin-top: -1px; /* Prevent double borders */
+    border: 0.0625rem solid #d0d0d0;
+    margin-top: -0.0625rem; /* Prevent double borders */
     background-color: #f6f6f6;
-    padding: 8px;
-    font-size: 16px;
+    padding: 0.5rem;
+    font-size: 1rem;
     text-decoration: none;
     color: black;
     display: block;
@@ -118,7 +126,7 @@ ul.closeable {
   }
   
   ul.closeable li:hover {
-    background-color: #eee;
+    background-color: #e0e0e0;
   }
   
   .btn-close {
@@ -126,8 +134,8 @@ ul.closeable {
     position: absolute;
     top: 50%;
     right: 0;
-    font-size: 22px;
-    padding: 4px 11px;
+    font-size: 1.375rem;
+    padding: 0.25rem 0.6875rem;
     transform: translate(0%, -50%);
   }
   
