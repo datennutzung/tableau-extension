@@ -8,7 +8,7 @@
       filter the Tableau view to show only these areas with the click of a button, and show the underlying data of any selected datapoints. After this manual Analysis,
       a user can then give feedback to the FDD routine, whether the data was faulty or not.
     </description>
-    <author name="Miron Gertis" email="miron.gertis@ise.fraunhofer.de" organization="Fraunhofer ISE" website="https://www.ise.fraunhofer.de"/>
+    <author name="Miron Gertis" email="miron.gertis@ise.fraunhofer.de" organization="Fraunhofer ISE" website="https://github.com/datennutzung/tableau-extension"/>
     <min-api-version>1.0</min-api-version>
     <source-location>
       <url>https://datennutzung.github.io/tableau-extension/fdd_feedback.html</url>
