@@ -1,0 +1,136 @@
+/*
+https://stackoverflow.com/questions/924916/is-there-a-way-to-make-a-div-unselectable
+  by https://stackoverflow.com/users/165164/anne-gunn
+*/
+.unselectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+.sheet_name {
+  font-weight: bold;
+}
+
+.text-center{
+  text-align: center;
+}
+
+.DTS .dataTables_scrollBody {
+    background: white;
+}
+
+
+#app_settings_button {
+  float: right;
+}
+
+.color-black {
+  color: #212529;
+}
+
+#app_settings_modal .input-group {
+  padding-bottom: 5px;
+}
+
+.btn-collapse {
+  padding-top: 0;
+  padding-left: 0;
+  font-weight: bold;
+}
+
+.chevron {
+  position: relative;
+  bottom: -5px;
+}
+
+.btn-collapse.collapsed .chevron {
+  transition: all 0.2s ease-out;
+  transform: rotate(0deg);
+}
+
+.btn-collapse .chevron {
+  transition: all 0.2s ease-out;
+  transform: rotate(-180deg);
+}
+
+.toggleable-password {
+  padding-right: 29px;
+}
+
+.toggle-password {
+  float: right;
+  margin-top: -30px;
+  margin-right: 5px;
+  position: relative;
+  z-index: 2;
+  cursor: pointer;
+}
+
+.version {
+  position: absolute;
+  left: 1.2rem;
+  color: #bbb;
+  font-size: smaller;
+}
+
+
+#btn_fault_group {
+    width: 100%;
+    height: 38px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    align-content: space-between;
+}
+
+.btn-fault {
+    float: right;
+    margin-left: 5px;
+    width: 120px;
+}
+
+#ranges_submit_button {
+  float: right;
+}
+
+ul.closeable {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 5px;
+    margin-top: 5px;
+  }
+  
+  ul.closeable li {
+    border: 1px solid #ddd;
+    margin-top: -1px; /* Prevent double borders */
+    background-color: #f6f6f6;
+    padding: 8px;
+    font-size: 16px;
+    text-decoration: none;
+    color: black;
+    display: block;
+    position: relative;
+  }
+  
+  ul.closeable li:hover {
+    background-color: #eee;
+  }
+  
+  .btn-close {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    font-size: 22px;
+    padding: 4px 11px;
+    transform: translate(0%, -50%);
+  }
+  
+  .btn-close:hover {
+    background: #bbb;
+  }

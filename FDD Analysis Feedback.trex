@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest manifest-version="0.1" xmlns="http://www.tableau.com/xml/extension_manifest">
+  <dashboard-extension id="de.fraunhofer.ise.tableau.fddfeedback" extension-version="0.6.0">
+    <default-locale>en_US</default-locale>
+    <name resource-id="name"/>
+    <description>
+      This Extension provides users with the ability to see the areas where the FDD routine was not sure whether there was an error, in a table structure, 
+      filter the Tableau view to show only these areas with the click of a button, and show the underlying data of any selected datapoints. After this manual Analysis,
+      a user can then give feedback to the FDD routine, whether the data was faulty or not.
+    </description>
+    <author name="Miron Gertis" email="miron.gertis@ise.fraunhofer.de" organization="Fraunhofer ISE" website="https://www.ise.fraunhofer.de"/>
+    <min-api-version>1.0</min-api-version>
+    <source-location>
+      <url>https://datennutzung.github.io/tableau-extension/fdd_feedback.html</url>
+    </source-location>
+    <icon>
+      iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsIAAA7CARUoSoAAAAJ2SURBVHhe7ZsxTgMxEEU3nACJniYtTU5AhVIhCsQ5OAEVJ+AciAqaiIoTpKEkFIgDcAPwN/7LZNbeeJESbex5kmV7/FkyY8+sm518O5oeJpNJGO0nG9xrkgGg46vVyvf7ynQ69X0qEJ0AlOK4JhWItQDA+dIc1yAQMggHoa/CeQAfZV1rA1ArPgXk7jNXSkX6iVSIBmC5XPpxacxms04ADmrJfQ18hu+oBt8yAPIEIGIA89gYxLQkZtNAw2f26Y7Pr8Koy8fjfXP5cRNmXR6Ob32P/6F9zSqCdARopzCPrWtbbE6b7KV9FyQDwB8hdwVjNj2Xdvm3tEmkjZqUdtv0pkBpYGP+lQIlEz0BJaN97QSgJqIBqP4EwGhFcAC7fGdvg40nIHYfkMj1TVoC3dBTtvObIMR0iNBGO3o6IrVSQ/pstOv1XZBdA/jjhuy0RjsYC17qmds6AVYEw7ha7B7g+rUA1ISlgMNSwPX/fgugquZoc3VkiH6oNrbZCEDbMHcP9A1j3bjG9ZSOTeo2adFyn4uWq8U6NdrX6k+A1QDXdwKwWCzCrJ/5fJ6lzdWRIfqhWu1r9a9Buwe4ZjVAG2t6C1gNCH21WA1wvd0DasZqgGtWA7TR7gEVYTXANasB2mj3gIqwGuCa1QBprIlRB+DwdB5Gab5e/orf2et1GKV5PrkLo19GWwRznAfU5TgPYrpRF8Gjz7e2xeaa94untsXmMTofTIyB3BMAkAa5JwAwDXD8/QcTfjYyZG73QZ3O7RQxXfvZXE1fjnD3gd0EQ+8jgsiUjtx9sPblKEAqgNLSgZur3O0GgJQSiJTjJBkAwkDsK/3uNc0PdgjN5i7G4coAAAAASUVORK5CYII=
+    </icon>
+  </dashboard-extension>
+  <resources>
+    <resource id="name">
+      <text locale="en_US">FDD Analysis Feedback</text>
+    </resource>
+  </resources>
+</manifest>
