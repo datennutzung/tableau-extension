@@ -86,6 +86,24 @@ https://stackoverflow.com/questions/924916/is-there-a-way-to-make-a-div-unselect
   font-size: smaller;
 }
 
+.help{
+  background-color: #222222;
+  font-family: 'Roboto', sans-serif;
+  color: white;
+	text-align: center;
+	font-size: 5rem;
+
+	position: fixed;
+	width: 100%;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.help::selection {
+  background-color: white;
+  color: black;
+}
 
 #btn_fault_group {
     width: 100%;
