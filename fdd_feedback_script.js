@@ -1,4 +1,4 @@
-const version = "19w51d2";
+const version = "19w52d1";
 
 // Use the jQuery document ready signal to know when everything has been initialized
 $(document).ready(function() {
@@ -293,6 +293,7 @@ function saveSettings() {
         settings.password = temp_password;
         settings.ready = temp_ready;
         tableau.extensions.settings.saveAsync();
+        loadSelectedMarks(tableau.extensions.settings.get("sheet"));
     } catch (error) {
         console.error(error);
     }
