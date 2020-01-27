@@ -183,7 +183,7 @@ var settings = {
     time_form: 24,
     group_column_name: "",
     group_column_index: 0,
-    group_seperator: "#",
+    group_seperator: "_",
     group_start_index: 0,
     group_end_index: 0,
     ready: false,
