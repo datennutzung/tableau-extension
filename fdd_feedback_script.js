@@ -1,4 +1,4 @@
-const version = "19w52d1";
+const version = "20w5d2";
 
 // Use the jQuery document ready signal to know when everything has been initialized
 $(document).ready(function() {
@@ -177,13 +177,14 @@ function getAllGroups(p_group_column_index) {
 var settings = {
     date_column_index: 0,
     date_column_name: "",
-    date_seperator: ".",
+    date_seperator: "-",
     date_time_seperator: " ",
-    date_form: "dmy",
+    date_form: "ymd",
     time_form: 24,
     group_column_name: "",
     group_column_index: 0,
     group_seperator: "_",
+    group_seperator_header: " ",
     group_start_index: 0,
     group_end_index: 0,
     ready: false,
@@ -245,6 +246,7 @@ function loadSettings() {
 
     //group settings
     $("#input_group_sep").val(settings.group_seperator);
+    $("#input_group_sep_header").val(settings.group_seperator_header);
     startEndSelect();
     $("#check_ready").prop("checked", settings.ready);
 
@@ -275,6 +277,7 @@ function saveSettings() {
     settings.group_column_name = $("#select_group_column :selected").text();
     settings.group_column_index = $("#select_group_column").val();
     settings.group_seperator = $("#input_group_sep").val();
+    settings.group_seperator_header = $("#input_group_sep_header").val();
     settings.group_start_index = $("#select_group_start").val();
     settings.group_end_index = $("#select_group_end").val();
     settings.ready = $("#check_ready").prop("checked");
@@ -318,7 +321,7 @@ function startEndSelect() {
     $("#select_group_end").empty();
     settings.group_column_name = $("#select_group_column :selected").text();
     settings.group_column_index = $("#select_group_column").val();
-    let group_column_array = settings.group_column_name.split(settings.group_seperator);
+    let group_column_array = settings.group_column_name.split(settings.group_seperator_header);
     for (let i = 0; i < group_column_array.length; i++) {
         const column_name = group_column_array[i];
         if (i == settings.group_start_index) {
@@ -355,7 +358,7 @@ function initializeButtons() {
 var group_rows = [];
 function findGroups() {
     getAllGroups(settings.group_column_index);
-    createGroupsTableHeaders(settings.group_column_name, settings.group_seperator);
+    createGroupsTableHeaders(settings.group_column_name, settings.group_seperator_header);
     $("#groups_table_body").empty();
     group_rows = [];
     if (groups_array.length != 0)
@@ -899,7 +902,8 @@ function testData() {
 
     settings.group_column_name = "GroupID#start#end";
     settings.group_column_index = 7;
-    settings.group_seperator = "#";
+    settings.group_seperator = "_";
+    settings.group_seperator_header = " ";
     settings.group_start_index = 1;
 	settings.group_end_index = 2;
     settings.ready = true;

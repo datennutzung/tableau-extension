@@ -136,8 +136,8 @@
                                     <label class="input-group-text" for="select_date_format">Date Format:</label>
                                 </div>
                                 <select class="custom-select" id="select_date_format" title="Select the Date Format">
-                                    <option value="dmy" selected>Day-Month-Year</option>
-                                    <option value="ymd">Year-Month-Day</option>
+                                    <option value="dmy">Day-Month-Year</option>
+                                    <option value="ymd" selected>Year-Month-Day</option>
                                     <option value="mdy">Month-Day-Year</option>
                                 </select>
                             </div>
@@ -167,9 +167,15 @@
                             <label>Group Settings:</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
-                                    <label class="input-group-text" for="input_group_sep">Group Seperator:</label>
+                                    <label class="input-group-text" for="input_group_sep_header">Group Header Seperator:</label>
                                 </div>
-                                <input type="text" class="form-control text-monospace" id="input_group_sep" title="Input the Group Seperator" maxlength="1" placeholder="Group Seperator">
+                                <input type="text" class="form-control text-monospace" id="input_group_sep_header" title="Input the Group Seperator for the Header" placeholder="Group Header Seperator">
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="input_group_sep">Group Data Seperator:</label>
+                                </div>
+                                <input type="text" class="form-control text-monospace" id="input_group_sep" title="Input the Group Seperator for the Data" placeholder="Group Data Seperator">
                             </div>
                             <div class="input-group">
                                 <div class="input-group-prepend">
