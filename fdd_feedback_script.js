@@ -177,14 +177,14 @@ function getAllGroups(p_group_column_index) {
 var settings = {
     date_column_index: 0,
     date_column_name: "",
-    date_seperator: "-",
-    date_time_seperator: " ",
+    date_separator: "-",
+    date_time_separator: " ",
     date_form: "ymd",
     time_form: 24,
     group_column_name: "",
     group_column_index: 0,
-    group_seperator: "_",
-    group_seperator_header: " ",
+    group_separator: "_",
+    group_separator_header: " ",
     group_start_index: 0,
     group_end_index: 0,
     ready: false,
@@ -239,14 +239,14 @@ function loadSettings() {
         $("#check_ready").prop("disabled", true);
     }
     //datetime settings
-    $("#input_date_sep").val(settings.date_seperator);
-    $("#input_date_time_sep").val(settings.date_time_seperator);
+    $("#input_date_sep").val(settings.date_separator);
+    $("#input_date_time_sep").val(settings.date_time_separator);
     $("#select_date_format").val(settings.date_form);
     $("#select_time_format").val(settings.time_form);
 
     //group settings
-    $("#input_group_sep").val(settings.group_seperator);
-    $("#input_group_sep_header").val(settings.group_seperator_header);
+    $("#input_group_sep").val(settings.group_separator);
+    $("#input_group_sep_header").val(settings.group_separator_header);
     startEndSelect();
     $("#check_ready").prop("checked", settings.ready);
 
@@ -268,16 +268,16 @@ function saveSettings() {
     //datetime settings
     settings.date_column_index = $("#select_datetime_column").val();
     settings.date_column_name = $("#select_datetime_column :selected").text();
-    settings.date_seperator =  $("#input_date_sep").val();
-    settings.date_time_seperator = $("#input_date_time_sep").val();
+    settings.date_separator =  $("#input_date_sep").val();
+    settings.date_time_separator = $("#input_date_time_sep").val();
     settings.date_form = $("#select_date_format").val();
     settings.time_form = $("#select_time_format").val();
 
     //group settings
     settings.group_column_name = $("#select_group_column :selected").text();
     settings.group_column_index = $("#select_group_column").val();
-    settings.group_seperator = $("#input_group_sep").val();
-    settings.group_seperator_header = $("#input_group_sep_header").val();
+    settings.group_separator = $("#input_group_sep").val();
+    settings.group_separator_header = $("#input_group_sep_header").val();
     settings.group_start_index = $("#select_group_start").val();
     settings.group_end_index = $("#select_group_end").val();
     settings.ready = $("#check_ready").prop("checked");
@@ -321,7 +321,7 @@ function startEndSelect() {
     $("#select_group_end").empty();
     settings.group_column_name = $("#select_group_column :selected").text();
     settings.group_column_index = $("#select_group_column").val();
-    let group_column_array = settings.group_column_name.split(settings.group_seperator_header);
+    let group_column_array = settings.group_column_name.split(settings.group_separator_header);
     for (let i = 0; i < group_column_array.length; i++) {
         const column_name = group_column_array[i];
         if (i == settings.group_start_index) {
@@ -358,7 +358,7 @@ function initializeButtons() {
 var group_rows = [];
 function findGroups() {
     getAllGroups(settings.group_column_index);
-    createGroupsTableHeaders(settings.group_column_name, settings.group_seperator_header);
+    createGroupsTableHeaders(settings.group_column_name, settings.group_separator_header);
     $("#groups_table_body").empty();
     group_rows = [];
     if (groups_array.length != 0)
@@ -367,7 +367,7 @@ function findGroups() {
 		$("#no_groups_message").show();
     for (let i = 0; i < groups_array.length; i++) {
         const element = groups_array[i];
-        group_rows.push(addGroupsTableEntry(element, settings.group_seperator));
+        group_rows.push(addGroupsTableEntry(element, settings.group_separator));
     }
     $("#groups").show();
 }
@@ -501,7 +501,7 @@ function markSelectedAsFault(fault) {
     let last = new Date("1970-01-01T00:00:00");
     let first = new Date("2999-12-31T23:59:59");
     for (let i = 0; i<dates.length; i++) {
-        let date = formatDateTime(dates[i], settings.date_seperator, settings.date_time_seperator, settings.date_form, settings.time_form);
+        let date = formatDateTime(dates[i], settings.date_separator, settings.date_time_separator, settings.date_form, settings.time_form);
         last = date>last?date:last;
         first = date<first?date:first;
     }
@@ -895,15 +895,15 @@ function testData() {
     populateDataTable(t_data, t_columns);
 
     settings.date_column_index = 0;
-    settings.date_seperator = "-";
-    settings.date_time_seperator = " ";
+    settings.date_separator = "-";
+    settings.date_time_separator = " ";
     settings.date_form = "ymd";
     settings.time_form = 24;
 
     settings.group_column_name = "GroupID#start#end";
     settings.group_column_index = 7;
-    settings.group_seperator = "_";
-    settings.group_seperator_header = " ";
+    settings.group_separator = "_";
+    settings.group_separator_header = " ";
     settings.group_start_index = 1;
 	settings.group_end_index = 2;
     settings.ready = true;
