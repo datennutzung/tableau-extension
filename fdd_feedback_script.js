@@ -1,4 +1,4 @@
-const version = "20w5d2";
+const version = "20w5d4";
 
 // Use the jQuery document ready signal to know when everything has been initialized
 $(document).ready(function() {
